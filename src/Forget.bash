@@ -1,0 +1,1 @@
+rm ../Knowledge/Memories*.txt

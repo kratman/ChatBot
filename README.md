@@ -28,5 +28,10 @@ Coming soon...
 
 ### Training
 
-Coming soon...
+Gabbie can be taught to speak using plain text books and lists of canned
+responses. Gabbie will also learn as users interact with her; through
+conversations or by playing twenty questions.
 
+After training, Gabbie's memories are stored in the Knowledge directory.
+Gabbie can be forced to forget by running the "Forget.bash" script or by
+removing the memory text files.
