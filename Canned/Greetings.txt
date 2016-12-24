@@ -1,3 +1,6 @@
-hello greetings
-hi greetings
-greetings greetings
+user_statement: Hello.
+gabbie_responce: Greetings.
+user_statement: Hi.
+gabbie_response: Greetings.
+user_statement: Greetings.
+gabbie_esponse: Greetings.
