@@ -1,1 +1,3 @@
-rm ../Knowledge/Memories*.txt
+#!/bin/bash
+
+rm -f ../Knowledge/Memories*.txt
