@@ -3,13 +3,13 @@
 
 ***
 <div align=center> <h2>
-Gabbie: A simple chat bot
+GabbieBot: A simple chat bot
 </h2> </div>
 
 <div align=center> <h4> By: Eric G. Kratz </h4> </div>
 ***
 
-### Gabbie
+### GabbieBot
 
 [![GPL license](https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat)](https://github.com/kratman/ChatBot/blob/master/src/GPL_LICENSE)
 
