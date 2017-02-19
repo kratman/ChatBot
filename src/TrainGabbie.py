@@ -23,10 +23,11 @@ import sys
 
 numBooks = 0 #Number of books given to Gabbie
 numErrors = 0 #Temporary storage for the number of errors
-totalWords = 0 #Total number of words in all books
-numWords = 0 #Number of unique words in all books
+totalWords = 0.0 #Total number of words in all books
+numWords = 0.0 #Number of unique words in all books
 bookNames = [] #List of book file names
-wordStats = {} #List of all words and the statistics
+wordFreqs = {} #A word list and the frequency of appearance
+wordPairs = {} #A list of all pairs of words to predict the next word
 
 ### Print a blank line ###
 
@@ -71,36 +72,77 @@ for book in bookNames:
   #Read the entire book into memory
   bookData = bookFile.readlines()
   #Loop over all of the lines in the book
+  tempList = [] #A simpler format for the word list
   for sentence in bookData:
     #Break the line into words
     words = sentence.strip().split()
     #Loop over all words
     for word in words:
+      tempList.append(word)
       #Check if the word is in the dictionary
-      if (wordStats.has_key(word) == True):
+      if (wordFreqs.has_key(word) == True):
         #Update the number of times the word appears
-        wordStats[word] += 1
+        wordFreqs[word] += 1.0
         #Update the word count
-        totalWords += 1
+        totalWords += 1.0
       else:
         #Add the word to the dictionary
         tempDict = {word : 1.0} #Blank item for the word
-        wordStats.update(tempDict) #Add the new word
+        wordFreqs.update(tempDict) #Add the new word
         #Update the statistics
-        totalWords += 1
-        numWords += 1
+        totalWords += 1.0
+        numWords += 1.0
+  #Gather word pairs and the next word
+  bookWords = len(tempList) #Number of words in this book
+  for i in range(bookWords):
+    #Skip the first and last words
+    if ((i > 0) and (i < bookWords-2)):
+      pair = tempList[i-1]+" "+tempList[i]
+      result = tempList[i+2]
+      if (wordPairs.has_key(pair) == True):
+        hasWord = False
+        for word in wordPairs[pair]:
+          if (word == result):
+            hasWord = True
+        if (hasWord == False):
+          wordPairs[pair].append(result)
+      else:
+        newList = []
+        newList.append(result)
+        tempDict = {pair : newList}
+        wordPairs.update(tempDict)
 
 ### Calculate statistics for word order ###
 
 #Calculate the statistical weight of the word
-
-
-#Loop over the words a second time to learn word order
-
+for word in wordFreqs:
+  wordFreqs[word] = wordFreqs[word]/totalWords
 
 ### Save dictionary to the memory files ###
 
+#Save word frequency
+memFile = open("../Knowledge/Memories_frequency.txt","w")
+for word in wordFreqs:
+  line = ""
+  line += word
+  line += " "
+  line += str(wordFreqs[word])
+  line += '\n'
+  memFile.write(line)
+memFile.close()
 
+#Save word pairs and responses
+
+memFile = open("../Knowledge/Memories_pairs.txt","w")
+for pair in wordPairs:
+  line = ""
+  line += pair
+  for word in wordPairs[pair]:
+    line += " "
+    line += word
+  line += '\n'
+  memFile.write(line)
+memFile.close()
 
 ### Print final output ###
 
@@ -113,15 +155,15 @@ textLine += '\n'
 
 #Number of books
 textLine += "  Number of books: "
-textLine += str(numBooks)
+textLine += str(int(numBooks))
 textLine += '\n'
 
 #Number of words
 textLine += "  Total number of words: "
-textLine += str(totalWords)
+textLine += str(int(totalWords))
 textLine += '\n'
 textLine += "  Number of unique words: "
-textLine += str(numWords)
+textLine += str(int(numWords))
 textLine += '\n'
 
 #Print results

@@ -6,6 +6,9 @@
 #                         #
 ###########################
 
+### Location of GabbieBot ###
+GABBIEPATH="home/kratz/Dropbox/Repos/ChatBot"
+
 ### Standard compiler settings ###
 
 CXX=g++
@@ -31,6 +34,7 @@ DEVFLAGS=-g -Wall -std=c++14
 #####################################################
 
 ### Compile rules for users and devs ###
+
 
 
 #####################################################
