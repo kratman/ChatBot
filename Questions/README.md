@@ -9,3 +9,11 @@ GabbieBot: A simple chat bot
 <div align=center> <h4> By: Eric G. Kratz </h4> </div>
 ***
 
+### Purpose
+
+This directory holds the default questions and answers for the "twenty
+questions" game. When GabbieBot loses memory files are updated in the
+knowledge directory.
+
+### Formats
+
