@@ -30,6 +30,11 @@ bookNames = [] #List of book file names
 wordFreqs = {} #A word list and the frequency of appearance
 wordPairs = {} #A list of all pairs of words to predict the next word
 
+### Functions ###
+
+def SortKey(wordList):
+  return wordList[1]
+
 ### Print a blank line ###
 
 #Makes the output look a little bit better
@@ -133,6 +138,21 @@ for book in bookNames:
 #Calculate the statistical weight of the word
 for word in wordFreqs:
   wordFreqs[word] = wordFreqs[word]/totalWords
+
+#Sort word pairs by frequency
+for pair in wordPairs:
+  tempWords = list(wordPairs[pair])
+  sortedWords = []
+  for word in tempWords:
+    temp = []
+    temp.append(word)
+    temp.append(wordFreqs[word])
+    sortedWords.append(temp)
+  sortedWords = sorted(sortedWords, key=SortKey)
+  tempWords = []
+  for word in sortedWords:
+    tempWords.append(word[0])
+  wordPairs[pair] = tempWords
 
 ### Save dictionary to the memory files ###
 

@@ -17,8 +17,6 @@ import random
 wordFreqs = {} #A word list and the frequency of appearance
 wordPairs = {} #A list of all pairs of words to predict the next word
 
-GabbiePath = "/home/kratz/Dropbox/Repos/ChatBot"
-
 ### Read memory files ###
 
 #Read word frequencies
@@ -60,7 +58,19 @@ def ContConv(text,pair,ct):
   #Continue the sentence
   if (pair in wordPairs):
     #Add the next word
-    nextWord = random.choice(wordPairs[pair])
+    binSize = 1.0/len(wordPairs[pair])
+    wordFound = False
+    wordID = 0
+    #Find a word with a biased random choice
+    while (wordFound == False):
+      if (random.random() < binSize):
+        #Accept this word
+        wordFound = True
+      else:
+        #Move to the next word
+        wordID += 1
+        wordID = wordID%len(wordPairs[pair])
+      nextWord = wordPairs[pair][wordID]
     text += " "+nextWord
     pair = pair.split()[1]+" "+nextWord
     ct += 1
