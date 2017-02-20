@@ -54,7 +54,7 @@ except:
 
 def ContConv(text,pair,ct):
   #Defined constraints
-  maxWords = 30
+  maxWords = 40
   #Continue the sentence
   if (pair in wordPairs):
     #Add the next word
@@ -90,7 +90,10 @@ def ContConv(text,pair,ct):
     noEnd = False
   #Avoid infinite conversations
   if (ct > maxWords):
+    #Stop the sentence
     noEnd = False
+    #Add a period to improve the formatting
+    text += "."
   #Return the update conversation
   return noEnd,text,pair,ct
 
@@ -99,9 +102,28 @@ def ContConv(text,pair,ct):
 #Print a blank line for formatting
 print("")
 
-#Pick the first statement
-prevPair = random.choice(list(wordPairs.keys()))
-sentence = prevPair
+#Process the user's statement
+try:
+  #Save the user input
+  sentence = ""
+  sentence += sys.argv[1]
+  #Improve formatting
+  if (sentence[0] != " "):
+    sentence = " "+sentence
+  #Identify the user
+  sentence = " User:"+sentence
+  #Save the last two words as input for Gabbie
+  prevPair = sentence.strip().split()
+  prevPair = prevPair[-2]+" "+prevPair[-1]
+  #Print the user input
+  sentence += '\n'
+  print(sentence)
+  #Reset the sentence for Gabbie
+  sentence = ""
+except:
+  #Randomly pick the first statement
+  prevPair = random.choice(list(wordPairs.keys()))
+  sentence = prevPair
 
 #Continue the conversation
 contSent = True #Flag to continue talkng
@@ -113,8 +135,15 @@ sentence += '\n'
 #Remove random capitalization
 sentence = sentence.lower()
 
+#Smoothly transion between user input and Gabbie output
+if (sentence[0] != " "):
+  sentence = " "+sentence
+
 #Add Gabbie's identity
-sentence = " Gabbie: "+sentence
+sentence = " Gabbie:"+sentence
 
 #Print the result
 print(sentence)
+
+#Quit
+exit(0)
