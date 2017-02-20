@@ -30,8 +30,6 @@ bookNames = [] #List of book file names
 wordFreqs = {} #A word list and the frequency of appearance
 wordPairs = {} #A list of all pairs of words to predict the next word
 
-GabbiePath = "/home/kratz/Dropbox/Repos/ChatBot"
-
 ### Print a blank line ###
 
 #Makes the output look a little bit better
@@ -93,7 +91,7 @@ for book in bookNames:
     for word in words:
       tempList.append(word)
       #Check if the word is in the dictionary
-      if (wordFreqs.has_key(word) == True):
+      if (word in wordFreqs):
         #Update the number of times the word appears
         wordFreqs[word] += 1.0
         #Update the word count
@@ -115,7 +113,7 @@ for book in bookNames:
       #Identify a word that follows the pair
       result = tempList[i+1]
       #Add the word trio to the dictionary
-      if (wordPairs.has_key(pair) == True):
+      if (pair in wordPairs):
         #Make sure the word is not a repeat
         hasWord = False
         for word in wordPairs[pair]:

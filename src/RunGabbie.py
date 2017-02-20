@@ -56,9 +56,9 @@ except:
 
 def ContConv(text,pair,ct):
   #Defined constraints
-  maxWords = 25
+  maxWords = 30
   #Continue the sentence
-  if (wordPairs.has_key(pair) == True):
+  if (pair in wordPairs):
     #Add the next word
     nextWord = random.choice(wordPairs[pair])
     text += " "+nextWord
@@ -66,7 +66,7 @@ def ContConv(text,pair,ct):
     ct += 1
   else:
     #Choose randomly
-    pair = random.choice(wordPairs.keys())
+    pair = random.choice(list(wordPairs.keys()))
     text += " "+pair
     ct += 2
   #Check for punctuation
@@ -90,7 +90,7 @@ def ContConv(text,pair,ct):
 print("")
 
 #Pick the first statement
-prevPair = random.choice(wordPairs.keys())
+prevPair = random.choice(list(wordPairs.keys()))
 sentence = prevPair
 
 #Continue the conversation
