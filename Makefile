@@ -56,6 +56,7 @@ binary:
 	@echo "GabbiePath = '${GABBIEPATH}'" >> ./bin/TrainGabbie
 	cat ./src/TrainGabbie.py >> ./bin/TrainGabbie
 	@sed $(SEDI) 's/\#.*//g' ./bin/*; \
+	sed $(SEDI) '/^$$/d' ./bin/*; \
 	sed $(SEDI) 's/\!\!/\#\!/g' ./bin/*
 	echo "#!/bin/bash" > ./bin/GabbieForget
 	@echo "GabbiePath=${GABBIEPATH}" >> ./bin/GabbieForget
