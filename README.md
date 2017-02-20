@@ -15,7 +15,7 @@ GabbieBot: A simple chat bot
 
 ### Build tests
 
-Coming soon...
+**Travis CI build:** [![Build Status](https://travis-ci.org/kratman/ChatBot.svg?branch=master)](https://travis-ci.org/kratman/LICHEM_QMMM)
 
 ### Introduction
 
@@ -24,14 +24,29 @@ and teaching machine learning techniques.
 
 ### Installation
 
-Coming soon...
+To install GabbieBot, clone the git repository:
+```
+user:$ mkdir GabbieBot
+user:$ git clone https://github.com/kratman/ChatBot.git ./GabbieBot/
+```
+
+The Makefile can produce both the documentation and the binaries.
+```
+user:$ make install
+```
 
 ### Training
 
 Gabbie can be taught to speak using plain text books and lists of canned
-responses. Gabbie will also learn as users interact with her; through
-conversations or by playing twenty questions.
+responses.
+```
+user:$ TrainGabbie BookFileName <...>
+```
+Note: <...> represents additional books which are optional to include.
+
+Gabbie will also learn as users interact with her; through conversations or
+by playing twenty questions.
 
 After training, Gabbie's memories are stored in the Knowledge directory.
-Gabbie can be forced to forget by running the "Forget.bash" script or by
-removing the memory text files.
+Gabbie can be forced to forget by running the "GabbieForget" script or by
+manually removing the memory text files.
