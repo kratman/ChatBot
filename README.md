@@ -45,8 +45,6 @@ user:$ TrainGabbie BookFileName <...>
 Note: <...> represents additional books which are optional to include.
 
 Gabbie will also learn as users interact with her; through conversations or
-by playing twenty questions.
-
-After training, Gabbie's memories are stored in the Knowledge directory.
-Gabbie can be forced to forget by running the "GabbieForget" script or by
-manually removing the memory text files.
+by playing twenty questions. After training, Gabbie's memories are stored in
+the Knowledge directory. Gabbie can be forced to forget by running the
+"GabbieForget" script or by manually removing the memory text files.
