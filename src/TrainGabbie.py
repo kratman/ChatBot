@@ -152,6 +152,7 @@ for pair in wordPairs:
   tempWords = []
   for word in sortedWords:
     tempWords.append(word[0])
+  tempWords.reverse()
   wordPairs[pair] = tempWords
 
 ### Save dictionary to the memory files ###

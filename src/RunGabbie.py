@@ -58,7 +58,10 @@ def ContConv(text,pair,ct):
   #Continue the sentence
   if (pair in wordPairs):
     #Add the next word
-    binSize = 1.0/len(wordPairs[pair])
+    if (len(wordPairs[pair]) > 1):
+      binSize = 1.0/(len(wordPairs[pair])-1)
+    else:
+      binSize = 1.0/len(wordPairs[pair])
     wordFound = False
     wordID = 0
     #Find a word with a biased random choice
