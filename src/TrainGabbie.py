@@ -17,6 +17,7 @@
 ### Import libraries ###
 
 import os
+import re
 import sys
 
 ### Initialize variables
@@ -28,6 +29,8 @@ numWords = 0.0 #Number of unique words in all books
 bookNames = [] #List of book file names
 wordFreqs = {} #A word list and the frequency of appearance
 wordPairs = {} #A list of all pairs of words to predict the next word
+
+GabbiePath = "/home/kratz/Dropbox/Repos/ChatBot"
 
 ### Print a blank line ###
 
@@ -74,8 +77,18 @@ for book in bookNames:
   #Loop over all of the lines in the book
   tempList = [] #A simpler format for the word list
   for sentence in bookData:
+    #Use regular expressions to remove garbage characters
+    words = sentence #Make a copy
+    words = re.sub(r'\[',"",words)
+    words = re.sub(r'\{',"",words)
+    words = re.sub(r'\(',"",words)
+    words = re.sub(r'\<',"",words)
+    words = re.sub(r'\]',"",words)
+    words = re.sub(r'\}',"",words)
+    words = re.sub(r'\)',"",words)
+    words = re.sub(r'\>',"",words)
     #Break the line into words
-    words = sentence.strip().split()
+    words = words.strip().split()
     #Loop over all words
     for word in words:
       tempList.append(word)
@@ -97,14 +110,19 @@ for book in bookNames:
   for i in range(bookWords):
     #Skip the first and last words
     if ((i > 0) and (i < bookWords-2)):
+      #Identify a pair of words
       pair = tempList[i-1]+" "+tempList[i]
-      result = tempList[i+2]
+      #Identify a word that follows the pair
+      result = tempList[i+1]
+      #Add the word trio to the dictionary
       if (wordPairs.has_key(pair) == True):
+        #Make sure the word is not a repeat
         hasWord = False
         for word in wordPairs[pair]:
           if (word == result):
             hasWord = True
         if (hasWord == False):
+          #Add the word to the list
           wordPairs[pair].append(result)
       else:
         newList = []
@@ -121,7 +139,7 @@ for word in wordFreqs:
 ### Save dictionary to the memory files ###
 
 #Save word frequency
-memFile = open("../Knowledge/Memories_frequency.txt","w")
+memFile = open(GabbiePath+"/Knowledge/Memories_frequency.txt","w")
 for word in wordFreqs:
   line = ""
   line += word
@@ -132,8 +150,7 @@ for word in wordFreqs:
 memFile.close()
 
 #Save word pairs and responses
-
-memFile = open("../Knowledge/Memories_pairs.txt","w")
+memFile = open(GabbiePath+"/Knowledge/Memories_pairs.txt","w")
 for pair in wordPairs:
   line = ""
   line += pair

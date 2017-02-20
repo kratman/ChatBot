@@ -1,3 +1,5 @@
 #!/bin/bash
 
-rm -f ../Knowledge/Memories*.txt
+GabbiePath=/home/kratz/Dropbox/Repos/ChatBot
+
+rm -f ${GabbiePath}/Knowledge/Memories*.txt
