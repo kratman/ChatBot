@@ -28,6 +28,8 @@ before_install:
   - if [ ${TRAVIS_OS_NAME} == linux ]; then sudo apt-get install -qq texlive; fi
   - if [ ${TRAVIS_OS_NAME} == linux ]; then if [ ${CXX} == clang++ ]; then sed -i 's/CXX=/CXX=clan/g' Makefile; fi; fi
   - if [ ${TRAVIS_OS_NAME} == linux ]; then if [ ${CC} == clang ]; then sed -i 's/CC=/CC=clan/g' Makefile; fi; fi
+  - if [ ${TRAVIS_OS_NAME} == linux ]; then export GABBIEPATH=${TRAVIS_BUILD_DIR}; fi
+  - if [ ${TRAVIS_OS_NAME} == linux ]; then sed -i '/GABBIEPATH=/d' Makefile; fi
   #OSX options
   - if [ ${TRAVIS_OS_NAME} == osx ]; then brew update; fi
   - if [ ${TRAVIS_OS_NAME} == osx ]; then if [ ${CXX} == clang++ ]; then sed -i "" 's/CXX=/CXX=clan/g' Makefile; fi; fi
@@ -35,9 +37,12 @@ before_install:
   - if [ ${TRAVIS_OS_NAME} == osx ]; then sed -i "" 's/-static//g' Makefile; fi
   - if [ ${TRAVIS_OS_NAME} == osx ]; then sed -i "" 's/-fopenmp//g' Makefile; fi
   - if [ ${TRAVIS_OS_NAME} == osx ]; then sed -i "" 's/SEDI=-i/SEDI=-i \"\" -e/g' Makefile; fi
+  - if [ ${TRAVIS_OS_NAME} == osx ]; then export GABBIEPATH=${TRAVIS_BUILD_DIR}; fi
+  - if [ ${TRAVIS_OS_NAME} == osx ]; then sed -i "" '/GABBIEPATH=/d' Makefile; fi
 
 #Run tests
 script:
   - make install
+  - ./bin/TrainGabbie Books/Shakespeare_plays.txt
   - make clean
   - if [ ${TRAVIS_OS_NAME} == linux ]; then apt-get moo; fi
