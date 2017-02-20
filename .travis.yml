@@ -43,7 +43,6 @@ before_install:
 #Run tests
 script:
   - make install
-  - head ./bin/TrainGabbie
   - ./bin/TrainGabbie Books/Shakespeare_plays.txt
   - make clean
   - if [ ${TRAVIS_OS_NAME} == linux ]; then apt-get moo; fi
