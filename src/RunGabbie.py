@@ -7,6 +7,11 @@
 
 #Primary GabbieBot program
 
+### Settings
+
+#Fraction of the updates which use the three word Markov chains
+threeWordFrac = 0.25
+
 ### Import libraries ###
 
 import os
@@ -229,7 +234,7 @@ contSen = True #Flag to continue talkng
 wordCt = 0 #Word counter
 while (contSen):
   #Decide if pairs or trios of words should be used
-  if ((prevTrio == None) or (random.random() > 0.5)):
+  if ((prevTrio == None) or (random.random() > threeWordFrac)):
     #Use the the two word Markov chain
     contSen,sentence,prevPair,wordCt = ConvPairs(sentence,prevPair,wordCt)
     #Update previous trio
