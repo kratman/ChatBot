@@ -48,3 +48,17 @@ Gabbie will also learn as users interact with her; through conversations or
 by playing twenty questions. After training, Gabbie's memories are stored in
 the Knowledge directory. Gabbie can be forced to forget by running the
 "GabbieForget" script or by manually removing the memory text files.
+
+### Usage
+
+The simplest way to interact with Gabbie is to call the RunGabbie script from
+the command line.
+```
+ user:$ ./bin/RunGabbie
+
+  or
+
+ user:$ ./bin/RunGabbie "<...>"
+```
+Note: The <...> can be replaced with any input string, but the quotes
+are required.

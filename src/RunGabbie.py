@@ -110,14 +110,19 @@ try:
   #Save the user input
   sentence = ""
   sentence += sys.argv[1]
+  #Check punctuation
+  lastChar = sentence[-1]
+  if ((lastChar != ".") and (lastChar != "!") and (lastChar != "?")):
+    #Add a period
+    sentence = sentence+"."
+  #Save the last two words as input for Gabbie
+  prevPair = sentence.strip().split()
+  prevPair = prevPair[-2]+" "+prevPair[-1]
   #Improve formatting
   if (sentence[0] != " "):
     sentence = " "+sentence
   #Identify the user
   sentence = " User:"+sentence
-  #Save the last two words as input for Gabbie
-  prevPair = sentence.strip().split()
-  prevPair = prevPair[-2]+" "+prevPair[-1]
   #Print the user input
   sentence += '\n'
   print(sentence)
