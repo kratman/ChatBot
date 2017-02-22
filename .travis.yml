@@ -44,5 +44,9 @@ before_install:
 script:
   - make install
   - ./bin/TrainGabbie Books/Shakespeare_plays.txt
+  - ./bin/RunGabbie
+  - ./bin/RunGabbie "Hello"
+  - ./bin/RunGabbie "Hello Gabbie"
+  - ./bin/RunGabbie "Tell me a story"
   - make clean
   - if [ ${TRAVIS_OS_NAME} == linux ]; then apt-get moo; fi
