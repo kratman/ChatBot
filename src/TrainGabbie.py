@@ -29,6 +29,7 @@ numWords = 0.0 #Number of unique words in all books
 bookNames = [] #List of book file names
 wordFreqs = {} #A word list and the frequency of appearance
 wordPairs = {} #A list of all pairs of words to predict the next word
+wordTrios = {} #A list of all trios of words
 
 ### Functions ###
 
@@ -108,10 +109,10 @@ for book in bookNames:
         #Update the statistics
         totalWords += 1.0
         numWords += 1.0
-  #Gather word pairs and the next word
+  #Gather word pairs/trios and the next word
   bookWords = len(tempList) #Number of words in this book
   for i in range(bookWords):
-    #Skip the first and last words
+    #Add pairs of words
     if ((i > 0) and (i < bookWords-2)):
       #Identify a pair of words
       pair = tempList[i-1]+" "+tempList[i]
@@ -132,6 +133,27 @@ for book in bookNames:
         newList.append(result)
         tempDict = {pair : newList}
         wordPairs.update(tempDict)
+    #Add trios of words
+    if ((i > 1) and (i < bookWords-2)):
+      #Identify a trio of words
+      trio = tempList[i-2]+" "+tempList[i-1]+" "+tempList[i]
+      #Identify a word that follows the trio
+      result = tempList[i+1]
+      #Add the word trio to the dictionary
+      if (trio in wordTrios):
+        #Make sure the word is not a repeat
+        hasWord = False
+        for word in wordTrios[trio]:
+          if (word == result):
+            hasWord = True
+        if (hasWord == False):
+          #Add the word to the list
+          wordTrios[trio].append(result)
+      else:
+        newList = []
+        newList.append(result)
+        tempDict = {trio : newList}
+        wordTrios.update(tempDict)
 
 ### Calculate statistics for word order ###
 
@@ -155,6 +177,22 @@ for pair in wordPairs:
   tempWords.reverse()
   wordPairs[pair] = tempWords
 
+#Sort word trios by frequency
+for trio in wordTrios:
+  tempWords = list(wordTrios[trio])
+  sortedWords = []
+  for word in tempWords:
+    temp = []
+    temp.append(word)
+    temp.append(wordFreqs[word])
+    sortedWords.append(temp)
+  sortedWords = sorted(sortedWords, key=SortKey)
+  tempWords = []
+  for word in sortedWords:
+    tempWords.append(word[0])
+  tempWords.reverse()
+  wordTrios[trio] = tempWords
+
 ### Save dictionary to the memory files ###
 
 #Save word frequency
@@ -174,6 +212,18 @@ for pair in wordPairs:
   line = ""
   line += pair
   for word in wordPairs[pair]:
+    line += " "
+    line += word
+  line += '\n'
+  memFile.write(line)
+memFile.close()
+
+#Save word trios and responses
+memFile = open(GabbiePath+"/Knowledge/Memories_trios.txt","w")
+for trio in wordTrios:
+  line = ""
+  line += trio
+  for word in wordTrios[trio]:
     line += " "
     line += word
   line += '\n'

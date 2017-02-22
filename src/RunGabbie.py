@@ -16,6 +16,7 @@ import random
 ### Initialize variables
 wordFreqs = {} #A word list and the frequency of appearance
 wordPairs = {} #A list of all pairs of words to predict the next word
+wordTrios = {} #A list of all trios of words to predict the next word
 
 ### Read memory files ###
 
@@ -50,9 +51,25 @@ except:
   line += "Error: No memories located!"
   print(line)
 
+#Read word trios
+try:
+  memFile = open(GabbiePath+"/Knowledge/Memories_trios.txt","r")
+  memData = memFile.readlines()
+  for triolist in memData:
+    tempData = triolist.strip().split()
+    tempTrio = tempData[0]+" "+tempData[1]+" "+tempData[2]
+    tempDict = {tempTrio : tempData[3:]}
+    wordTrios.update(tempDict)
+  memFile.close()
+  memData = [] #Clear RAM
+except:
+  line = ""
+  line += "Error: No memories located!"
+  print(line)
+
 ### Functions ###
 
-def ContConv(text,pair,ct):
+def ContConvPairs(text,pair,ct):
   #Defined constraints
   maxWords = 40
   #Continue the sentence
@@ -100,6 +117,54 @@ def ContConv(text,pair,ct):
   #Return the update conversation
   return noEnd,text,pair,ct
 
+def ContConvTrios(text,trio,ct):
+  #Defined constraints
+  maxWords = 40
+  #Continue the sentence
+  if (trio in wordTrios):
+    #Add the next word
+    if (len(wordTrios[trio]) > 1):
+      binSize = 1.0/(len(wordTrios[trio])-1)
+    else:
+      binSize = 1.0/len(wordTrios[trio])
+    wordFound = False
+    wordID = 0
+    #Find a word with a biased random choice
+    while (wordFound == False):
+      if (random.random() < binSize):
+        #Accept this word
+        wordFound = True
+      else:
+        #Move to the next word
+        wordID += 1
+        wordID = wordID%len(wordTrios[trio])
+      nextWord = wordTrios[trio][wordID]
+    text += " "+nextWord
+    trio = trio.split()[1]+trio.split()[2]+" "+nextWord
+    ct += 1
+  else:
+    #Choose randomly
+    trio = random.choice(list(wordTrios.keys()))
+    text += " "+trio
+    ct += 3
+  #Check for punctuation
+  lastChar = trio[-1]
+  noEnd = True
+  if (lastChar == "!"):
+    noEnd = False
+  if (lastChar == "."):
+    noEnd = False
+  if (lastChar == "?"):
+    noEnd = False
+  #Avoid infinite conversations
+  if (ct > maxWords):
+    #Stop the sentence
+    noEnd = False
+    #Add a period to improve the formatting
+    text += "."
+  #Return the update conversation
+  return noEnd,text,trio,ct
+
 ### Main routines ###
 
 #Print a blank line for formatting
@@ -115,9 +180,16 @@ try:
   if ((lastChar != ".") and (lastChar != "!") and (lastChar != "?")):
     #Add a period
     sentence = sentence+"."
-  #Save the last two words as input for Gabbie
-  prevPair = sentence.strip().split()
-  prevPair = prevPair[-2]+" "+prevPair[-1]
+  try:
+    #Save the last three words as input for Gabbie
+    prevPair = None
+    prevTrio = sentence.strip().split()
+    prevTrio = prevTrio[-3]+" "+prevTrio[-2]+" "+prevTrio[-1]
+  except:
+    #Save the last two words as input for Gabbie
+    prevTrio = None
+    prevPair = sentence.strip().split()
+    prevPair = prevPair[-2]+" "+prevPair[-1]
   #Improve formatting
   if (sentence[0] != " "):
     sentence = " "+sentence
@@ -130,14 +202,32 @@ try:
   sentence = ""
 except:
   #Randomly pick the first statement
+  prevTrio = None
   prevPair = random.choice(list(wordPairs.keys()))
   sentence = prevPair
 
 #Continue the conversation
-contSent = True #Flag to continue talkng
+contSen = True #Flag to continue talkng
 wordCt = 0 #Word counter
-while (contSent):
-  contSent,sentence,prevPair,wordCt = ContConv(sentence,prevPair,wordCt)
+while (contSen):
+  #Decide if pairs or trios of words should be used
+  if ((prevTrio == None) or (random.random() > 0.5)):
+    #Use the the two word Markov chain
+    contSen,sentence,prevPair,wordCt = ContConvPairs(sentence,prevPair,wordCt)
+    #Update previous trio
+    prevTrio = sentence.strip().split()
+    if (len(prevTrio) > 2):
+      #A valid trio exists
+      prevTrio = prevTrio[-3]+" "+prevTrio[-2]+" "+prevTrio[-1]
+    else:
+      #Avoid using an invalid trio
+      prevTrio = None
+  else:
+    #Use the three word Markov chain
+    contSen,sentence,prevTrio,wordCt = ContConvTrios(sentence,prevTrio,wordCt)
+    #Update previous pair
+    prevPair = sentence.strip().split()
+    prevPair = prevTrio[-2]+" "+prevTrio[-1]
 sentence += '\n'
 
 #Remove random capitalization
