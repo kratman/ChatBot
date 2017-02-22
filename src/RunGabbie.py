@@ -69,7 +69,8 @@ except:
 
 ### Functions ###
 
-def ContConvPairs(text,pair,ct):
+#Two word Markov chain model
+def ConvPairs(text,pair,ct):
   #Defined constraints
   maxWords = 40
   #Continue the sentence
@@ -117,7 +118,8 @@ def ContConvPairs(text,pair,ct):
   #Return the update conversation
   return noEnd,text,pair,ct
 
-def ContConvTrios(text,trio,ct):
+#Three word Markov chain model
+def ConvTrios(text,trio,ct):
   #Defined constraints
   maxWords = 40
   #Continue the sentence
@@ -170,9 +172,33 @@ def ContConvTrios(text,trio,ct):
 #Print a blank line for formatting
 print("")
 
-#Process the user's statement
+#Save user's input
 try:
   #Save the user input
+  sentence = ""
+  sentence += sys.argv[1]
+  #Check punctuation
+  lastChar = sentence[-1]
+  if ((lastChar != ".") and (lastChar != "!") and (lastChar != "?")):
+    #Add a period
+    sentence = sentence+"."
+  #Improve formatting
+  if (sentence[0] != " "):
+    sentence = " "+sentence
+  #Identify the user
+  sentence = " User:"+sentence
+  #Print the user input
+  sentence += '\n'
+  print(sentence)
+  #Reset the sentence for Gabbie
+  sentence = ""
+except:
+  #Ignore the error and do nothing
+  pass
+
+#Process the user's statement
+try:
+  #Copy the user input
   sentence = ""
   sentence += sys.argv[1]
   #Check punctuation
@@ -190,14 +216,6 @@ try:
     prevTrio = None
     prevPair = sentence.strip().split()
     prevPair = prevPair[-2]+" "+prevPair[-1]
-  #Improve formatting
-  if (sentence[0] != " "):
-    sentence = " "+sentence
-  #Identify the user
-  sentence = " User:"+sentence
-  #Print the user input
-  sentence += '\n'
-  print(sentence)
   #Reset the sentence for Gabbie
   sentence = ""
 except:
@@ -213,7 +231,7 @@ while (contSen):
   #Decide if pairs or trios of words should be used
   if ((prevTrio == None) or (random.random() > 0.5)):
     #Use the the two word Markov chain
-    contSen,sentence,prevPair,wordCt = ContConvPairs(sentence,prevPair,wordCt)
+    contSen,sentence,prevPair,wordCt = ConvPairs(sentence,prevPair,wordCt)
     #Update previous trio
     prevTrio = sentence.strip().split()
     if (len(prevTrio) > 2):
@@ -224,7 +242,7 @@ while (contSen):
       prevTrio = None
   else:
     #Use the three word Markov chain
-    contSen,sentence,prevTrio,wordCt = ContConvTrios(sentence,prevTrio,wordCt)
+    contSen,sentence,prevTrio,wordCt = ConvTrios(sentence,prevTrio,wordCt)
     #Update previous pair
     prevPair = sentence.strip().split()
     prevPair = prevTrio[-2]+" "+prevTrio[-1]
