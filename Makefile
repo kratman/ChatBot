@@ -35,7 +35,7 @@ DEVFLAGS=-g -Wall -std=c++14
 
 ### Compile rules for users and devs ###
 
-install:	title binary compdone
+install:	title binary stats compdone
 
 clean:	title delbin compdone
 
@@ -46,6 +46,7 @@ clean:	title delbin compdone
 binary:	
 	@echo ""; \
 	echo "### Building executables ###"; \
+        echo ""; \
 	mkdir -p bin
 	@echo 'echo "#!$(PYPATH)" > ./bin/RunGabbie'; \
 	echo "!!${PYPATH}" > ./bin/RunGabbie
@@ -73,6 +74,15 @@ title:
 	echo "#                A simple chat bot                #"; \
 	echo "#                                                 #"; \
 	echo "###################################################"
+
+stats:	
+	@echo ""; \
+	echo "### Source code statistics ###"; \
+	echo ""; \
+	echo "Number of GabbieBot source code files:"; \
+	ls -al src/* | wc -l; \
+	echo "Total length of GabbieBot (lines):"; \
+	cat src/* | wc -l
 
 compdone:	
 	@echo ""; \
