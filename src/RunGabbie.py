@@ -27,49 +27,61 @@ wordTrios = {} #A list of all trios of words to predict the next word
 
 #Read word frequencies
 try:
+  #Open file
   memFile = open(GabbiePath+"/Knowledge/Memories_frequency.txt","r")
   memData = memFile.readlines()
   for freq in memData:
+    #Read word frequencies
     tempData = freq.strip().split()
     tempDict = {tempData[0] : float(tempData[1])}
     wordFreqs.update(tempDict)
+  #Close file
   memFile.close()
   memData = [] #Clear RAM
 except:
+  #Print an error message
   line = ""
-  line += "Error: No memories located!"
+  line += "Error: No word frequency memories located!"
   print(line)
 
 #Read word pairs
 try:
+  #Open file
   memFile = open(GabbiePath+"/Knowledge/Memories_pairs.txt","r")
   memData = memFile.readlines()
   for pairlist in memData:
+    #Read pair list
     tempData = pairlist.strip().split()
     tempPair = tempData[0]+" "+tempData[1]
     tempDict = {tempPair : tempData[2:]}
     wordPairs.update(tempDict)
+  #Close file
   memFile.close()
   memData = [] #Clear RAM
 except:
+  #Print an error message
   line = ""
-  line += "Error: No memories located!"
+  line += "Error: No word pair memories located!"
   print(line)
 
 #Read word trios
 try:
+  #Open file
   memFile = open(GabbiePath+"/Knowledge/Memories_trios.txt","r")
   memData = memFile.readlines()
   for triolist in memData:
+    #Read trio list
     tempData = triolist.strip().split()
     tempTrio = tempData[0]+" "+tempData[1]+" "+tempData[2]
     tempDict = {tempTrio : tempData[3:]}
     wordTrios.update(tempDict)
+  #Close file
   memFile.close()
   memData = [] #Clear RAM
 except:
+  #Print an error message
   line = ""
-  line += "Error: No memories located!"
+  line += "Error: No word trio memories located!"
   print(line)
 
 ### Functions ###
