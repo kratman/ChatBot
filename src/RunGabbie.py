@@ -42,15 +42,13 @@ wordTrios = {} #A list of all trios of words to predict the next word
 try:
   #Open file
   memFile = open(GabbiePath+"/Knowledge/Memories_frequency.txt","r")
-  memData = memFile.readlines()
-  for freq in memData:
+  for freq in memFile:
     #Read word frequencies
     tempData = freq.strip().split()
     tempDict = {tempData[0] : float(tempData[1])}
     wordFreqs.update(tempDict)
   #Close file
   memFile.close()
-  memData = [] #Clear RAM
 except:
   #Print an error message
   quitGabbie = True
@@ -62,8 +60,7 @@ except:
 try:
   #Open file
   memFile = open(GabbiePath+"/Knowledge/Memories_pairs.txt","r")
-  memData = memFile.readlines()
-  for pairlist in memData:
+  for pairlist in memFile:
     #Read pair list
     tempData = pairlist.strip().split()
     tempPair = tempData[0]+" "+tempData[1]
@@ -71,7 +68,6 @@ try:
     wordPairs.update(tempDict)
   #Close file
   memFile.close()
-  memData = [] #Clear RAM
 except:
   #Print an error message
   quitGabbie = True
@@ -83,8 +79,7 @@ except:
 try:
   #Open file
   memFile = open(GabbiePath+"/Knowledge/Memories_trios.txt","r")
-  memData = memFile.readlines()
-  for triolist in memData:
+  for triolist in memFile:
     #Read trio list
     tempData = triolist.strip().split()
     tempTrio = tempData[0]+" "+tempData[1]+" "+tempData[2]
@@ -92,7 +87,6 @@ try:
     wordTrios.update(tempDict)
   #Close file
   memFile.close()
-  memData = [] #Clear RAM
 except:
   #Print an error message
   if (debugGabbie):

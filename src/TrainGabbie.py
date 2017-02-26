@@ -81,11 +81,9 @@ numErrors = 0
 for book in bookNames:
   #Open the book in read (r) mode
   bookFile = open(book,"r")
-  #Read the entire book into memory
-  bookData = bookFile.readlines()
   #Loop over all of the lines in the book
   tempList = [] #A simpler format for the word list
-  for sentence in bookData:
+  for sentence in bookFile:
     #Use regular expressions to remove garbage characters
     words = sentence #Make a copy
     words = re.sub(r'\[',"",words)
@@ -170,6 +168,9 @@ for book in bookNames:
         newList.append(result)
         tempDict = {trio : newList}
         wordTrios.update(tempDict)
+  #Clear memory and close the book
+  tempList = []
+  bookFile.close()
 
 ### Calculate statistics for word order ###
 
