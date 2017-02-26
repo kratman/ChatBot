@@ -7,10 +7,21 @@
 
 #Primary GabbieBot program
 
-### Settings
+### Hard-coded settings ###
 
 #Fraction of the updates which use the three word Markov chains
 threeWordFrac = 0.25
+
+#Make all letters lower case to improve the number of matches
+allLowerCase = True
+
+### Debug settings ###
+
+#Turn on printing of the user input
+printUser = True
+
+#Turn on command line debugging output
+debugGabbie = False
 
 ### Import libraries ###
 
@@ -19,6 +30,8 @@ import sys
 import random
 
 ### Initialize variables
+debugLine = "" #A set of debug messages
+quitGabbie = False #Quits gabbie if an error was found
 wordFreqs = {} #A word list and the frequency of appearance
 wordPairs = {} #A list of all pairs of words to predict the next word
 wordTrios = {} #A list of all trios of words to predict the next word
@@ -40,9 +53,10 @@ try:
   memData = [] #Clear RAM
 except:
   #Print an error message
-  line = ""
-  line += "Error: No word frequency memories located!"
-  print(line)
+  quitGabbie = True
+  if (debugGabbie):
+    debugLine += "  Exception: No word frequency memories were located."
+    debugLine += '\n'
 
 #Read word pairs
 try:
@@ -60,9 +74,10 @@ try:
   memData = [] #Clear RAM
 except:
   #Print an error message
-  line = ""
-  line += "Error: No word pair memories located!"
-  print(line)
+  quitGabbie = True
+  if (debugGabbie):
+    debugLine += "  Exception: No word pair memories were located."
+    debugLine += '\n'
 
 #Read word trios
 try:
@@ -80,9 +95,9 @@ try:
   memData = [] #Clear RAM
 except:
   #Print an error message
-  line = ""
-  line += "Error: No word trio memories located!"
-  print(line)
+  if (debugGabbie):
+    debugLine += "  Exception: No word trio memories were located."
+    debugLine += '\n'
 
 ### Functions ###
 
@@ -202,16 +217,22 @@ try:
   #Improve formatting
   if (sentence[0] != " "):
     sentence = " "+sentence
+  #Change the case
+  if (allLowerCase):
+    sentence = sentence.lower()
   #Identify the user
   sentence = " User:"+sentence
   #Print the user input
   sentence += '\n'
-  print(sentence)
+  if (printUser):
+    print(sentence)
   #Reset the sentence for Gabbie
   sentence = ""
 except:
   #Ignore the error and do nothing
-  pass
+  if (debugGabbie):
+    debugLine += "  Exception: No user input given."
+    debugLine += '\n'
 
 #Process the user's statement
 try:
@@ -223,6 +244,9 @@ try:
   if ((lastChar != ".") and (lastChar != "!") and (lastChar != "?")):
     #Add a period
     sentence = sentence+"."
+  #Change the case
+  if (allLowerCase):
+    sentence = sentence.lower()
   try:
     #Save the last three words as input for Gabbie
     prevPair = None
@@ -230,6 +254,9 @@ try:
     prevTrio = prevTrio[-3]+" "+prevTrio[-2]+" "+prevTrio[-1]
   except:
     #Save the last two words as input for Gabbie
+    if (debugGabbie):
+      debugLine += "  Exception: User input was less than three words."
+      debugLine += '\n'
     prevTrio = None
     prevPair = sentence.strip().split()
     prevPair = prevPair[-2]+" "+prevPair[-1]
@@ -237,12 +264,21 @@ try:
   sentence = ""
 except:
   #Randomly pick the first statement
+  if (debugGabbie):
+    debugLine += "  Exception: Could not form a word pair/trio."
+    debugLine += '\n'
   prevTrio = None
-  prevPair = random.choice(list(wordPairs.keys()))
+  if (quitGabbie):
+    prevPair = ""
+  else:
+    prevPair = random.choice(list(wordPairs.keys()))
   sentence = prevPair
 
 #Continue the conversation
-contSen = True #Flag to continue talkng
+contSen = True #Flag to continue talking
+if (quitGabbie):
+  #Avoid crashes when no memory files were located
+  contSen = False
 wordCt = 0 #Word counter
 while (contSen):
   #Decide if pairs or trios of words should be used
@@ -263,6 +299,8 @@ while (contSen):
     #Update previous pair
     prevPair = sentence.strip().split()
     prevPair = prevTrio[-2]+" "+prevTrio[-1]
+
+#Print an extra blank line to format the command line output
 sentence += '\n'
 
 #Remove random capitalization
@@ -277,6 +315,12 @@ sentence = " Gabbie:"+sentence
 
 #Print the result
 print(sentence)
+
+#Print debug information
+if (debugGabbie):
+  if (debugLine != ""):
+    debugLine = "Debugging output:\n"+debugLine
+    print(debugLine)
 
 #Quit
 exit(0)

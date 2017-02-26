@@ -14,6 +14,11 @@
 # Note: <...> represents additional books which are optional to include
 #
 
+### Hard-coded settings ###
+
+#Make all letters lower case to improve the number of matches
+allLowerCase = True
+
 ### Import libraries ###
 
 import os
@@ -91,6 +96,9 @@ for book in bookNames:
     words = re.sub(r'\}',"",words)
     words = re.sub(r'\)',"",words)
     words = re.sub(r'\>',"",words)
+    #Change the case
+    if (allLowerCase):
+      words = words.lower()
     #Break the line into words
     words = words.strip().split()
     #Loop over all words
@@ -118,7 +126,11 @@ for book in bookNames:
       pair = tempList[i-1]+" "+tempList[i]
       #Identify a word that follows the pair
       result = tempList[i+1]
-      #Add the word trio to the dictionary
+      #Change the case
+      if (allLowerCase):
+        pair = pair.lower()
+        result = result.lower()
+      #Add the word pair to the dictionary
       if (pair in wordPairs):
         #Make sure the word is not a repeat
         hasWord = False
@@ -139,6 +151,10 @@ for book in bookNames:
       trio = tempList[i-2]+" "+tempList[i-1]+" "+tempList[i]
       #Identify a word that follows the trio
       result = tempList[i+1]
+      #Change the case
+      if (allLowerCase):
+        trio = trio.lower()
+        result = result.lower()
       #Add the word trio to the dictionary
       if (trio in wordTrios):
         #Make sure the word is not a repeat
