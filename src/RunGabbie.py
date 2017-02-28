@@ -32,11 +32,100 @@ import random
 ### Initialize variables
 debugLine = "" #A set of debug messages
 quitGabbie = False #Quits gabbie if an error was found
+canPhrases = {} #A list of canned responses
 wordFreqs = {} #A word list and the frequency of appearance
 wordPairs = {} #A list of all pairs of words to predict the next word
 wordTrios = {} #A list of all trios of words to predict the next word
 
 ### Read memory files ###
+
+#Read personality
+try:
+  #Open file
+  memFile = open(GabbiePath+"/Canned/Personality.txt","r")
+  memData = memFile.readlines()
+  #Read pairs of phrases and responses
+  for i in range(len(memData)/2):
+    #Create a temporary string for storage
+    dummyLine = ""
+    #Read phrase
+    phrase = memData[2*i]
+    phrase = phrase.strip().split()
+    phrase = phrase[1:]
+    for j in range(len(phrase)):
+      if (j > 0):
+        dummyLine += " "
+      dummyLine += phrase[j]
+    phrase = dummyLine
+    #Reset temporary string
+    dummyLine = ""
+    #Read response
+    result = memData[2*i+1]
+    result = result.strip().split()
+    result = result[1:]
+    for j in range(len(result)):
+      if (j > 0):
+        dummyLine += " "
+      dummyLine += result[j]
+    result = dummyLine
+    #Change case
+    if (allLowerCase):
+      phrase = phrase.lower()
+      result = result.lower()
+    #Save pair
+    canPhrases.update({phrase : result})
+  #Close file
+  memFile.close()
+except:
+  #Print an error message
+  quitGabbie = True
+  if (debugGabbie):
+    debugLine += "  Exception: No personality memories were located."
+    debugLine += '\n'
+
+#Read canned greetings
+try:
+  #Open file
+  memFile = open(GabbiePath+"/Canned/Greetings.txt","r")
+  memData = memFile.readlines()
+  #Read pairs of phrases and responses
+  for i in range(len(memData)/2):
+    #Create a temporary string for storage
+    dummyLine = ""
+    #Read phrase
+    phrase = memData[2*i]
+    phrase = phrase.strip().split()
+    phrase = phrase[1:]
+    for j in range(len(phrase)):
+      if (j > 0):
+        dummyLine += " "
+      dummyLine += phrase[j]
+    phrase = dummyLine
+    #Reset temporary string
+    dummyLine = ""
+    #Read response
+    result = memData[2*i+1]
+    result = result.strip().split()
+    result = result[1:]
+    for j in range(len(result)):
+      if (j > 0):
+        dummyLine += " "
+      dummyLine += result[j]
+    result = dummyLine
+    #Change case
+    if (allLowerCase):
+      phrase = phrase.lower()
+      result = result.lower()
+    #Save pair
+    canPhrases.update({phrase : result})
+  #Close file
+  memFile.close()
+except:
+  #Print an error message
+  quitGabbie = True
+  if (debugGabbie):
+    debugLine += "  Exception: No greeting memories were located."
+    debugLine += '\n'
 
 #Read word frequencies
 try:
@@ -94,6 +183,19 @@ except:
     debugLine += '\n'
 
 ### Functions ###
+
+#Attempt to use known phrases
+def knownPhrases(userInput):
+  #Initialize variables
+  answer = userInput #Needed when no input is given
+  notFound = True #Forces Gabbie to keep talking
+  #Check if Gabbie recognizes the user input
+  if (userInput in canPhrases):
+    #Stop the conversation
+    notFound = False
+    #Save Gabbie's answer
+    answer = canPhrases[userInput]
+  return notFound,answer
 
 #Two word Markov chain model
 def ConvPairs(text,pair,ct):
@@ -268,12 +370,41 @@ except:
     prevPair = random.choice(list(wordPairs.keys()))
   sentence = prevPair
 
-#Continue the conversation
-contSen = True #Flag to continue talking
+### Continue the conversation ###
+
+#Preprogrammed conversations
+oldSent = sentence
+try:
+  contSen = True
+  initSent = sys.argv[1]
+  #Check punctuation
+  lastChar = initSent[-1]
+  if ((lastChar != ".") and (lastChar != "!") and (lastChar != "?")):
+    #Add a period
+    initSent = initSent+"."
+  #Change case
+  if (allLowerCase):
+    initSent = initSent.lower()
+  #Check for a response
+  contSen,sentence = knownPhrases(initSent)
+  #Restore the previous sentence
+  if (contSen):
+    sentence = oldSent
+except:
+  #Restore the previous sentence
+  if (debugGabbie):
+    debugLine += "  Exception: User input could not be interpreted."
+    debugLine += '\n'
+  sentence = oldSent
+  contSen = True
+
+#Initialize variables
 if (quitGabbie):
   #Avoid crashes when no memory files were located
   contSen = False
 wordCt = 0 #Word counter
+
+#Generic conversations
 while (contSen):
   #Decide if pairs or trios of words should be used
   if ((prevTrio == None) or (random.random() > threeWordFrac)):
