@@ -5,7 +5,7 @@
 #                                                                            #
 ##############################################################################
 
-#A script for teaching GabbieBot to speak using plain text books
+# A script for teaching GabbieBot to speak using plain text books
 
 ### Usage ###
 #
@@ -16,8 +16,8 @@
 
 ### Hard-coded settings ###
 
-#Make all letters lower case to improve the number of matches
-allLowerCase = True
+# Make all letters lower case to improve the number of matches
+allLowerCase = True # Suggestion: True
 
 ### Import libraries ###
 
@@ -27,12 +27,12 @@ import sys
 
 ### Initialize variables
 
-numBooks = 0 #Number of books given to Gabbie
-numErrors = 0 #Temporary storage for the number of errors
-totalWords = 0.0 #Total number of words in all books
-numWords = 0.0 #Number of unique words in all books
-bookNames = [] #List of book file names
-wordFreqs = {} #A word list and the frequency of appearance
+numBooks = 0 # Number of books given to Gabbie
+numErrors = 0 # Temporary storage for the number of errors
+totalWords = 0.0 # Total number of words in all books
+numWords = 0.0 # Number of unique words in all books
+bookNames = [] # List of book file names
+wordFreqs = {} # A word list and the frequency of appearance
 wordPairs = {} #A list of all pairs of words to predict the next word
 wordTrios = {} #A list of all trios of words
 
@@ -43,48 +43,48 @@ def SortKey(wordList):
 
 ### Print a blank line ###
 
-#Makes the output look a little bit better
+# Makes the output look a little bit better
 print("")
 
 ### Read the names of the books ###
 
-#Use a count of the arguments given to python
-#Note: The first argument is always the name of the script
+# Use a count of the arguments given to python
+# Note: The first argument is always the name of the script
 numBooks = len(sys.argv)-1
 
 for i in range(numBooks):
-  #Safely read the name of the book
+  # Safely read the name of the book
   tempName = sys.argv[i+1]
   if (os.path.exists(tempName) == True):
-    #The operating system located the book
+    # The operating system located the book
     bookNames.append(tempName)
   else:
-    #The book is missing
-    numErrors += 1 #Increase the number of errors
-    textLine = "" #Empty string
-    #Add an error message
+    # The book is missing
+    numErrors += 1 # Increase the number of errors
+    textLine = "" # Empty string
+    # Add an error message
     textLine += "Error: A book "
     textLine += tempName
     textLine += " was not found!"
-    #Print the error and continue
+    # Print the error and continue
     print(textLine)
 
-#Adjust the number of books by subtracting the number of errors
+# Adjust the number of books by subtracting the number of errors
 numBooks -= numErrors
 
-#Reset the number of errors
+# Reset the number of errors
 numErrors = 0
 
 ### Convert books to dictionaries ###
 
-#Loop over the books
+# Loop over the books
 for book in bookNames:
-  #Open the book in read (r) mode
+  # Open the book in read (r) mode
   bookFile = open(book,"r")
-  #Loop over all of the lines in the book
+  # Loop over all of the lines in the book
   tempList = [] #A simpler format for the word list
   for sentence in bookFile:
-    #Use regular expressions to remove garbage characters
+    # Use regular expressions to remove garbage characters
     words = sentence #Make a copy
     words = re.sub(r'\[',"",words)
     words = re.sub(r'\{',"",words)
@@ -94,91 +94,91 @@ for book in bookNames:
     words = re.sub(r'\}',"",words)
     words = re.sub(r'\)',"",words)
     words = re.sub(r'\>',"",words)
-    #Change the case
+    # Change the case
     if (allLowerCase):
       words = words.lower()
-    #Break the line into words
+    # Break the line into words
     words = words.strip().split()
-    #Loop over all words
+    # Loop over all words
     for word in words:
       tempList.append(word)
-      #Check if the word is in the dictionary
+      # Check if the word is in the dictionary
       if (word in wordFreqs):
-        #Update the number of times the word appears
+        # Update the number of times the word appears
         wordFreqs[word] += 1.0
-        #Update the word count
+        # Update the word count
         totalWords += 1.0
       else:
-        #Add the word to the dictionary
+        # Add the word to the dictionary
         tempDict = {word : 1.0} #Blank item for the word
         wordFreqs.update(tempDict) #Add the new word
-        #Update the statistics
+        # Update the statistics
         totalWords += 1.0
         numWords += 1.0
-  #Gather word pairs/trios and the next word
+  # Gather word pairs/trios and the next word
   bookWords = len(tempList) #Number of words in this book
   for i in range(bookWords):
-    #Add pairs of words
+    # Add pairs of words
     if ((i > 0) and (i < bookWords-2)):
-      #Identify a pair of words
+      # Identify a pair of words
       pair = tempList[i-1]+" "+tempList[i]
-      #Identify a word that follows the pair
+      # Identify a word that follows the pair
       result = tempList[i+1]
-      #Change the case
+      # Change the case
       if (allLowerCase):
         pair = pair.lower()
         result = result.lower()
-      #Add the word pair to the dictionary
+      # Add the word pair to the dictionary
       if (pair in wordPairs):
-        #Make sure the word is not a repeat
+        # Make sure the word is not a repeat
         hasWord = False
         for word in wordPairs[pair]:
           if (word == result):
             hasWord = True
         if (hasWord == False):
-          #Add the word to the list
+          # Add the word to the list
           wordPairs[pair].append(result)
       else:
         newList = []
         newList.append(result)
         tempDict = {pair : newList}
         wordPairs.update(tempDict)
-    #Add trios of words
+    # Add trios of words
     if ((i > 1) and (i < bookWords-2)):
-      #Identify a trio of words
+      # Identify a trio of words
       trio = tempList[i-2]+" "+tempList[i-1]+" "+tempList[i]
-      #Identify a word that follows the trio
+      # Identify a word that follows the trio
       result = tempList[i+1]
-      #Change the case
+      # Change the case
       if (allLowerCase):
         trio = trio.lower()
         result = result.lower()
-      #Add the word trio to the dictionary
+      # Add the word trio to the dictionary
       if (trio in wordTrios):
-        #Make sure the word is not a repeat
+        # Make sure the word is not a repeat
         hasWord = False
         for word in wordTrios[trio]:
           if (word == result):
             hasWord = True
         if (hasWord == False):
-          #Add the word to the list
+          # Add the word to the list
           wordTrios[trio].append(result)
       else:
         newList = []
         newList.append(result)
         tempDict = {trio : newList}
         wordTrios.update(tempDict)
-  #Clear memory and close the book
+  # Clear memory and close the book
   tempList = []
   bookFile.close()
 
 ### Calculate statistics for word order ###
 
-#Calculate the statistical weight of the word
+# Calculate the statistical weight of the word
 for word in wordFreqs:
   wordFreqs[word] = wordFreqs[word]/totalWords
 
-#Sort word pairs by frequency
+# Sort word pairs by frequency
 for pair in wordPairs:
   tempWords = list(wordPairs[pair])
   sortedWords = []
@@ -194,7 +194,7 @@ for pair in wordPairs:
   tempWords.reverse()
   wordPairs[pair] = tempWords
 
-#Sort word trios by frequency
+# Sort word trios by frequency
 for trio in wordTrios:
   tempWords = list(wordTrios[trio])
   sortedWords = []
@@ -212,7 +212,7 @@ for trio in wordTrios:
 
 ### Save dictionary to the memory files ###
 
-#Save word frequency
+# Save word frequency
 memFile = open(GabbiePath+"/Knowledge/Memories_frequency.txt","w")
 for word in wordFreqs:
   line = ""
@@ -223,7 +223,7 @@ for word in wordFreqs:
   memFile.write(line)
 memFile.close()
 
-#Save word pairs and responses
+# Save word pairs and responses
 memFile = open(GabbiePath+"/Knowledge/Memories_pairs.txt","w")
 for pair in wordPairs:
   line = ""
@@ -235,7 +235,7 @@ for pair in wordPairs:
   memFile.write(line)
 memFile.close()
 
-#Save word trios and responses
+# Save word trios and responses
 memFile = open(GabbiePath+"/Knowledge/Memories_trios.txt","w")
 for trio in wordTrios:
   line = ""
@@ -249,19 +249,19 @@ memFile.close()
 
 ### Print final output ###
 
-#Create an empty line of text
+# Create an empty line of text
 textLine = ""
 
-#Add a description
+# Add a description
 textLine += "Learning statistics:"
 textLine += '\n'
 
-#Number of books
+# Number of books
 textLine += "  Number of books: "
 textLine += str(int(numBooks))
 textLine += '\n'
 
-#Number of words
+# Number of words
 textLine += "  Total number of words: "
 textLine += str(int(totalWords))
 textLine += '\n'
@@ -269,8 +269,8 @@ textLine += "  Number of unique words: "
 textLine += str(int(numWords))
 textLine += '\n'
 
-#Print results
+# Print results
 print(textLine)
 
 ### Clean up and exit
-exit(0) #Cleanly exit the program
+exit(0) # Cleanly exit the program
