@@ -53,10 +53,6 @@ binary:
 	echo "!!${PYPATH}" > ./bin/TrainGabbie
 	@echo "GabbiePath = '${PWD}'" >> ./bin/TrainGabbie
 	cat ./src/TrainGabbie.py >> ./bin/TrainGabbie
-	@echo 'echo "#!$(PYPATH)" > ./bin/GabbieTwentyQ'; \
-	echo "!!${PYPATH}" > ./bin/GabbieTwentyQ
-	@echo "GabbiePath = '${PWD}'" >> ./bin/GabbieTwentyQ
-	cat ./src/GabbieTwentyQ.py >> ./bin/GabbieTwentyQ
 	@sed $(SEDI) 's/\#.*//g' ./bin/*; \
 	sed $(SEDI) 's/[[:space:]]*$$//g' ./bin/*; \
 	sed $(SEDI) '/^$$/d' ./bin/*; \
