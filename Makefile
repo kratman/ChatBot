@@ -6,9 +6,6 @@
 #                         #
 ###########################
 
-### Location of GabbieBot ###
-GABBIEPATH="/home/kratz/Dropbox/Repos/ChatBot"
-
 ### Standard compiler settings ###
 
 CXX=g++
@@ -50,18 +47,22 @@ binary:
 	mkdir -p bin
 	@echo 'echo "#!$(PYPATH)" > ./bin/RunGabbie'; \
 	echo "!!${PYPATH}" > ./bin/RunGabbie
-	@echo "GabbiePath = '${GABBIEPATH}'" >> ./bin/RunGabbie
+	@echo "GabbiePath = '${PWD}'" >> ./bin/RunGabbie
 	cat ./src/RunGabbie.py >> ./bin/RunGabbie
 	@echo 'echo "#!$(PYPATH)" > ./bin/TrainGabbie'; \
 	echo "!!${PYPATH}" > ./bin/TrainGabbie
-	@echo "GabbiePath = '${GABBIEPATH}'" >> ./bin/TrainGabbie
+	@echo "GabbiePath = '${PWD}'" >> ./bin/TrainGabbie
 	cat ./src/TrainGabbie.py >> ./bin/TrainGabbie
+	@echo 'echo "#!$(PYPATH)" > ./bin/GabbieTwentyQ'; \
+	echo "!!${PYPATH}" > ./bin/GabbieTwentyQ
+	@echo "GabbiePath = '${PWD}'" >> ./bin/GabbieTwentyQ
+	cat ./src/GabbieTwentyQ.py >> ./bin/GabbieTwentyQ
 	@sed $(SEDI) 's/\#.*//g' ./bin/*; \
 	sed $(SEDI) 's/[[:space:]]*$$//g' ./bin/*; \
 	sed $(SEDI) '/^$$/d' ./bin/*; \
 	sed $(SEDI) 's/\!\!/\#\!/g' ./bin/*
 	echo "#!/bin/bash" > ./bin/GabbieForget
-	@echo "GabbiePath=${GABBIEPATH}" >> ./bin/GabbieForget
+	@echo "GabbiePath=${PWD}" >> ./bin/GabbieForget
 	cat ./src/Forget.bash >> ./bin/GabbieForget
 	@chmod a+x ./bin/*
 
