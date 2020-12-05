@@ -8,7 +8,7 @@
 
 ### Python settings ###
 
-PYPATH=/usr/bin/python3
+PYPATH=/usr/bin/python
 
 ### Sed commands ###
 
