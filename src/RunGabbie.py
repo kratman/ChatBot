@@ -7,7 +7,8 @@
 
 # Primary GabbieBot program
 
-## Hard-coded settings
+import sys
+import random
 
 # Fraction of the updates which use the three word Markov chains
 threeWordFrac = 0.25  # Suggestion: 0.25
@@ -22,11 +23,6 @@ printUser = True  # For the text interface
 # Turn on command line debugging output
 debugGabbie = False
 
-# Import libraries
-
-import sys
-import random
-
 # Initialize variables
 debugLine = ""  # A set of debug messages
 quitGabbie = False  # Quits gabbie if an error was found
@@ -34,8 +30,6 @@ canPhrases = {}  # A list of canned responses
 wordFreqs = {}  # A word list and the frequency of appearance
 wordPairs = {}  # A list of all pairs of words to predict the next word
 wordTrios = {}  # A list of all trios of words to predict the next word
-
-## Read memory files
 
 # Read personality
 try:
@@ -210,6 +204,7 @@ def ConvPairs(text, pair, ct):
         wordFound = False
         wordID = 0
         # Find a word with a biased random choice
+        nextWord = ""
         while wordFound == False:
             if random.random() < binSize:
                 # Accept this word
@@ -228,13 +223,13 @@ def ConvPairs(text, pair, ct):
         text += " " + pair
         ct += 2
     # Check for punctuation
-    lastChar = pair[-1]
+    lastCharacter = pair[-1]
     noEnd = True
-    if lastChar == "!":
+    if lastCharacter == "!":
         noEnd = False
-    if lastChar == ".":
+    if lastCharacter == ".":
         noEnd = False
-    if lastChar == "?":
+    if lastCharacter == "?":
         noEnd = False
     # Avoid infinite conversations
     if ct > maxWords:
@@ -260,6 +255,7 @@ def ConvTrios(text, trio, ct):
         wordFound = False
         wordID = 0
         # Find a word with a biased random choice
+        nextWord = ""
         while wordFound == False:
             if random.random() < binSize:
                 # Accept this word
@@ -278,13 +274,13 @@ def ConvTrios(text, trio, ct):
         text += " " + trio
         ct += 3
     # Check for punctuation
-    lastChar = trio[-1]
+    lastCharacter = trio[-1]
     noEnd = True
-    if lastChar == "!":
+    if lastCharacter == "!":
         noEnd = False
-    if lastChar == ".":
+    if lastCharacter == ".":
         noEnd = False
-    if lastChar == "?":
+    if lastCharacter == "?":
         noEnd = False
     # Avoid infinite conversations
     if ct > maxWords:
@@ -295,7 +291,8 @@ def ConvTrios(text, trio, ct):
     # Return the update conversation
     return noEnd, text, trio, ct
 
-## Main routines
+
+# Main routines
 
 # Print a blank line for formatting
 print("")
@@ -370,8 +367,6 @@ except:
         prevPair = random.choice(list(wordPairs.keys()))
     sentence = prevPair
 
-## Continue the conversation
-
 # Pre-programmed conversations
 oldSent = sentence
 try:
@@ -383,16 +378,16 @@ try:
         # Add a period
         initSent = initSent + "."
     # Change case
-    if (allLowerCase):
+    if allLowerCase:
         initSent = initSent.lower()
     # Check for a response
     contSen, sentence = knownPhrases(initSent)
     # Restore the previous sentence
-    if (contSen):
+    if contSen:
         sentence = oldSent
 except:
     # Restore the previous sentence
-    if (debugGabbie):
+    if debugGabbie:
         debugLine += "  Exception: User input could not be interpreted."
         debugLine += '\n'
     sentence = oldSent
@@ -431,7 +426,7 @@ sentence += '\n'
 # Remove random capitalization
 sentence = sentence.lower()
 
-# Smoothly transion between user input and Gabbie output
+# Smoothly transition between user input and Gabbie output
 if sentence[0] != " ":
     sentence = " " + sentence
 
@@ -442,8 +437,8 @@ sentence = " Gabbie:" + sentence
 print(sentence)
 
 # Print debug information
-if (debugGabbie):
-    if (debugLine != ""):
+if debugGabbie:
+    if debugLine != "":
         debugLine = "Debugging output:\n" + debugLine
         print(debugLine)
 
