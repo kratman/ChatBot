@@ -7,6 +7,7 @@ GabbieBot: A simple chat bot
 </h2> </div>
 
 <div align=center> <h4> By: Eric G. Kratz </h4> </div>
+
 ***
 
 ### Purpose

@@ -8,6 +8,8 @@ GabbieBot: A simple chat bot
 
 <div align=center> <h4> By: Eric G. Kratz </h4> </div>
 
+***
+
 ### GabbieBot
 
 [![GPL license](https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat)](https://github.com/kratman/ChatBot/blob/master/src/GPL_LICENSE)
