@@ -21,7 +21,7 @@ allLowerCase = True  # Suggestion: True
 printUser = True  # For the text interface
 
 # Turn on command line debugging output
-debugGabbie = True
+debugGabbie = False
 
 ### Import libraries ###
 
