@@ -56,7 +56,7 @@ numBooks = len(sys.argv) - 1
 for i in range(numBooks):
     # Safely read the name of the book
     tempName = sys.argv[i + 1]
-    if (os.path.exists(tempName) == True):
+    if os.path.exists(tempName):
         # The operating system located the book
         bookNames.append(tempName)
     else:
@@ -96,7 +96,7 @@ for book in bookNames:
         words = re.sub(r'\)', "", words)
         words = re.sub(r'\>', "", words)
         # Change the case
-        if (allLowerCase):
+        if allLowerCase:
             words = words.lower()
         # Break the line into words
         words = words.strip().split()
@@ -104,7 +104,7 @@ for book in bookNames:
         for word in words:
             tempList.append(word)
             # Check if the word is in the dictionary
-            if (word in wordFreqs):
+            if word in wordFreqs:
                 # Update the number of times the word appears
                 wordFreqs[word] += 1.0
                 # Update the word count
@@ -120,23 +120,23 @@ for book in bookNames:
     bookWords = len(tempList)  # Number of words in this book
     for i in range(bookWords):
         # Add pairs of words
-        if ((i > 0) and (i < bookWords - 2)):
+        if (i > 0) and (i < bookWords - 2):
             # Identify a pair of words
             pair = tempList[i - 1] + " " + tempList[i]
             # Identify a word that follows the pair
             result = tempList[i + 1]
             # Change the case
-            if (allLowerCase):
+            if allLowerCase:
                 pair = pair.lower()
                 result = result.lower()
             # Add the word pair to the dictionary
-            if (pair in wordPairs):
+            if pair in wordPairs:
                 # Make sure the word is not a repeat
                 hasWord = False
                 for word in wordPairs[pair]:
-                    if (word == result):
+                    if word == result:
                         hasWord = True
-                if (hasWord == False):
+                if hasWord == False:
                     # Add the word to the list
                     wordPairs[pair].append(result)
             else:
@@ -145,23 +145,23 @@ for book in bookNames:
                 tempDict = {pair: newList}
                 wordPairs.update(tempDict)
         # Add trios of words
-        if ((i > 1) and (i < bookWords - 2)):
+        if (i > 1) and (i < bookWords - 2):
             # Identify a trio of words
             trio = tempList[i - 2] + " " + tempList[i - 1] + " " + tempList[i]
             # Identify a word that follows the trio
             result = tempList[i + 1]
             # Change the case
-            if (allLowerCase):
+            if allLowerCase:
                 trio = trio.lower()
                 result = result.lower()
             # Add the word trio to the dictionary
-            if (trio in wordTrios):
+            if trio in wordTrios:
                 # Make sure the word is not a repeat
                 hasWord = False
                 for word in wordTrios[trio]:
-                    if (word == result):
+                    if word == result:
                         hasWord = True
-                if (hasWord == False):
+                if hasWord == False:
                     # Add the word to the list
                     wordTrios[trio].append(result)
             else:
