@@ -1,6 +1,6 @@
 user_statement: Hello.
-gabbie_responce: Greetings.
+gabbie_response: Greetings.
 user_statement: Hi.
 gabbie_response: Greetings.
 user_statement: Greetings.
-gabbie_esponse: Greetings.
+gabbie_response: Greetings.

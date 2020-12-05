@@ -21,11 +21,10 @@ allLowerCase = True # Suggestion: True
 printUser = True # For the text interface
 
 # Turn on command line debugging output
-debugGabbie = False
+debugGabbie = True
 
 ### Import libraries ###
 
-import os
 import sys
 import random
 
@@ -42,10 +41,10 @@ wordTrios = {} # A list of all trios of words to predict the next word
 # Read personality
 try:
   # Open file
-  memFile = open(GabbiePath+"/Canned/Personality.txt","r")
+  memFile = open(GabbiePath+"/Canned/Personality.txt", "r")
   memData = memFile.readlines()
   # Read pairs of phrases and responses
-  for i in range(len(memData)/2):
+  for i in range(len(memData)//2):
     # Create a temporary string for storage
     dummyLine = ""
     # Read phrase
@@ -89,7 +88,7 @@ try:
   memFile = open(GabbiePath+"/Canned/Greetings.txt","r")
   memData = memFile.readlines()
   # Read pairs of phrases and responses
-  for i in range(len(memData)/2):
+  for i in range(len(memData)//2):
     # Create a temporary string for storage
     dummyLine = ""
     # Read phrase

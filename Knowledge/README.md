@@ -7,6 +7,7 @@ GabbieBot: A simple chat bot
 </h2> </div>
 
 <div align=center> <h4> By: Eric G. Kratz </h4> </div>
+
 ***
 
 ### Purpose
@@ -17,5 +18,5 @@ GabbieBot interacts with users.
 
 ### Formats
 
-The memory files are created by writing the dictories and arrays to a file
+The memory files are created by writing the dictionaries and arrays to a file
 in a format that is easy to read at run time.
