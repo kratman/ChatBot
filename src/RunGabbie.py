@@ -417,7 +417,7 @@ while contSen:
         contSen, sentence, prevTrio, wordCt = ConvTrios(sentence, prevTrio, wordCt)
         # Update previous pair
         prevPair = sentence.strip().split()
-        prevPair = prevTrio[-2] + " " + prevTrio[-1]
+        prevPair = prevPair[-2] + " " + prevPair[-1]
 
 # Print an extra blank line to format the command line output
 sentence += '\n'
