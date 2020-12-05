@@ -11,6 +11,7 @@
 
 # Fraction of the updates which use the three word Markov chains
 threeWordFrac = 0.25  # Suggestion: 0.25
+GabbiePath = "./"
 
 # Make all letters lower case to improve the number of matches
 allLowerCase = True  # Suggestion: True

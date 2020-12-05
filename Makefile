@@ -34,18 +34,15 @@ binary:
 	mkdir -p bin
 	@echo 'echo "#!$(PYPATH)" > ./bin/RunGabbie'; \
 	echo "!!${PYPATH}" > ./bin/RunGabbie
-	@echo "GabbiePath = '${PWD}'" >> ./bin/RunGabbie
 	cat ./src/RunGabbie.py >> ./bin/RunGabbie
 	@echo 'echo "#!$(PYPATH)" > ./bin/TrainGabbie'; \
 	echo "!!${PYPATH}" > ./bin/TrainGabbie
-	@echo "GabbiePath = '${PWD}'" >> ./bin/TrainGabbie
 	cat ./src/TrainGabbie.py >> ./bin/TrainGabbie
 	@sed $(SEDI) 's/\#.*//g' ./bin/*; \
 	sed $(SEDI) 's/[[:space:]]*$$//g' ./bin/*; \
 	sed $(SEDI) '/^$$/d' ./bin/*; \
 	sed $(SEDI) 's/\!\!/\#\!/g' ./bin/*
 	echo "#!/bin/bash" > ./bin/GabbieForget
-	@echo "GabbiePath="../"" >> ./bin/GabbieForget
 	cat ./src/Forget.bash >> ./bin/GabbieForget
 	@chmod a+x ./bin/*
 

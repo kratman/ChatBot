@@ -1,5 +1,5 @@
 # Uncompressed files
-rm -f ${GabbiePath}/Knowledge/Memories*.txt
+rm -f ./Knowledge/Memories*.txt
 
 # Compressed files
-rm -f ${GabbiePath}/Knowledge/Memories*.gz
+rm -f ./Knowledge/Memories*.gz

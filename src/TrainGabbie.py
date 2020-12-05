@@ -19,6 +19,7 @@
 
 # Make all letters lower case to improve the number of matches
 allLowerCase = True  # Suggestion: True
+GabbiePath = "./"
 
 ## Import libraries
 
