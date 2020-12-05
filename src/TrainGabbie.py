@@ -137,7 +137,7 @@ for book in bookNames:
                 for word in wordPairs[pair]:
                     if word == result:
                         hasWord = True
-                if hasWord == False:
+                if not hasWord:
                     # Add the word to the list
                     wordPairs[pair].append(result)
             else:
@@ -162,7 +162,7 @@ for book in bookNames:
                 for word in wordTrios[trio]:
                     if word == result:
                         hasWord = True
-                if hasWord == False:
+                if not hasWord:
                     # Add the word to the list
                     wordTrios[trio].append(result)
             else:

@@ -174,7 +174,6 @@ except:
         debugLine += "  Exception: No word trio memories were located."
         debugLine += '\n'
 
-## Functions
 
 # Attempt to use known phrases
 def knownPhrases(userInput):
@@ -182,7 +181,7 @@ def knownPhrases(userInput):
     answer = userInput  # Needed when no input is given
     notFound = True  # Forces Gabbie to keep talking
     # Check if Gabbie recognizes the user input
-    if (userInput in canPhrases):
+    if userInput in canPhrases:
         # Stop the conversation
         notFound = False
         # Save Gabbie's answer
@@ -205,7 +204,7 @@ def ConvPairs(text, pair, ct):
         wordID = 0
         # Find a word with a biased random choice
         nextWord = ""
-        while wordFound == False:
+        while not wordFound:
             if random.random() < binSize:
                 # Accept this word
                 wordFound = True
@@ -256,7 +255,7 @@ def ConvTrios(text, trio, ct):
         wordID = 0
         # Find a word with a biased random choice
         nextWord = ""
-        while wordFound == False:
+        while not wordFound:
             if random.random() < binSize:
                 # Accept this word
                 wordFound = True
