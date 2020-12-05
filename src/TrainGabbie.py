@@ -15,22 +15,15 @@
  Note: <...> represents additional books which are optional to include
 """
 
-## Hard-coded settings
+import os
+import re
+import sys
 
 # Make all letters lower case to improve the number of matches
 allLowerCase = True  # Suggestion: True
 GabbiePath = "./"
 
-## Import libraries
-
-import os
-import re
-import sys
-
-## Initialize variables
-
-numBooks = 0  # Number of books given to Gabbie
-numErrors = 0  # Temporary storage for the number of errors
+# Initialize variables
 totalWords = 0.0  # Total number of words in all books
 numWords = 0.0  # Number of unique words in all books
 bookNames = []  # List of book file names
@@ -38,22 +31,18 @@ wordFreqs = {}  # A word list and the frequency of appearance
 wordPairs = {}  # A list of all pairs of words to predict the next word
 wordTrios = {}  # A list of all trios of words
 
-## Functions
 
 def SortKey(wordList):
     return wordList[1]
 
-## Print a blank line
 
 # Makes the output look a little bit better
 print("")
 
-## Read the names of the books
-
 # Use a count of the arguments given to python
 # Note: The first argument is always the name of the script
 numBooks = len(sys.argv) - 1
-
+numErrors = 0  # Temporary storage for the number of errors
 for i in range(numBooks):
     # Safely read the name of the book
     tempName = sys.argv[i + 1]
@@ -74,12 +63,7 @@ for i in range(numBooks):
 # Adjust the number of books by subtracting the number of errors
 numBooks -= numErrors
 
-# Reset the number of errors
-numErrors = 0
-
-## Convert books to dictionaries
-
-# Loop over the books
+# Convert books to dictionaries
 for book in bookNames:
     # Open the book in read (r) mode
     bookFile = open(book, "r")
@@ -174,8 +158,6 @@ for book in bookNames:
     tempList = []
     bookFile.close()
 
-## Calculate statistics for word order
-
 # Calculate the statistical weight of the word
 for word in wordFreqs:
     wordFreqs[word] = wordFreqs[word] / totalWords
@@ -212,8 +194,6 @@ for trio in wordTrios:
     tempWords.reverse()
     wordTrios[trio] = tempWords
 
-## Save dictionary to the memory files
-
 # Save word frequency
 memFile = open(GabbiePath + "/Knowledge/Memories_frequency.txt", "w")
 for word in wordFreqs:
@@ -249,8 +229,6 @@ for trio in wordTrios:
     memFile.write(line)
 memFile.close()
 
-## Print final output
-
 # Create an empty line of text
 textLine = ""
 
@@ -275,4 +253,4 @@ textLine += '\n'
 print(textLine)
 
 # Clean up and exit
-exit(0)  # Cleanly exit the program
+exit(0)
