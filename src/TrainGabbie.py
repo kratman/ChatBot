@@ -7,25 +7,26 @@
 
 # A script for teaching GabbieBot to speak using plain text books
 
-### Usage ###
-#
-# user:$ python TrainGabbie.py BookFileName <...>
-#
-# Note: <...> represents additional books which are optional to include
-#
+"""
+ Usage:
 
-### Hard-coded settings ###
+ user:$ python TrainGabbie.py BookFileName <...>
+
+ Note: <...> represents additional books which are optional to include
+"""
+
+## Hard-coded settings
 
 # Make all letters lower case to improve the number of matches
 allLowerCase = True  # Suggestion: True
 
-### Import libraries ###
+## Import libraries
 
 import os
 import re
 import sys
 
-### Initialize variables
+## Initialize variables
 
 numBooks = 0  # Number of books given to Gabbie
 numErrors = 0  # Temporary storage for the number of errors
@@ -36,19 +37,17 @@ wordFreqs = {}  # A word list and the frequency of appearance
 wordPairs = {}  # A list of all pairs of words to predict the next word
 wordTrios = {}  # A list of all trios of words
 
-
-### Functions ###
+## Functions
 
 def SortKey(wordList):
     return wordList[1]
 
-
-### Print a blank line ###
+## Print a blank line
 
 # Makes the output look a little bit better
 print("")
 
-### Read the names of the books ###
+## Read the names of the books
 
 # Use a count of the arguments given to python
 # Note: The first argument is always the name of the script
@@ -77,7 +76,7 @@ numBooks -= numErrors
 # Reset the number of errors
 numErrors = 0
 
-### Convert books to dictionaries ###
+## Convert books to dictionaries
 
 # Loop over the books
 for book in bookNames:
@@ -174,7 +173,7 @@ for book in bookNames:
     tempList = []
     bookFile.close()
 
-### Calculate statistics for word order ###
+## Calculate statistics for word order
 
 # Calculate the statistical weight of the word
 for word in wordFreqs:
@@ -212,7 +211,7 @@ for trio in wordTrios:
     tempWords.reverse()
     wordTrios[trio] = tempWords
 
-### Save dictionary to the memory files ###
+## Save dictionary to the memory files
 
 # Save word frequency
 memFile = open(GabbiePath + "/Knowledge/Memories_frequency.txt", "w")
@@ -249,7 +248,7 @@ for trio in wordTrios:
     memFile.write(line)
 memFile.close()
 
-### Print final output ###
+## Print final output
 
 # Create an empty line of text
 textLine = ""
@@ -274,5 +273,5 @@ textLine += '\n'
 # Print results
 print(textLine)
 
-### Clean up and exit
+# Clean up and exit
 exit(0)  # Cleanly exit the program

@@ -30,7 +30,7 @@ clean:	title delbin compdone
 binary:	
 	@echo ""; \
 	echo "### Building executables ###"; \
-        echo ""; \
+	echo ""; \
 	mkdir -p bin
 	@echo 'echo "#!$(PYPATH)" > ./bin/RunGabbie'; \
 	echo "!!${PYPATH}" > ./bin/RunGabbie
@@ -45,7 +45,7 @@ binary:
 	sed $(SEDI) '/^$$/d' ./bin/*; \
 	sed $(SEDI) 's/\!\!/\#\!/g' ./bin/*
 	echo "#!/bin/bash" > ./bin/GabbieForget
-	@echo "GabbiePath=${PWD}" >> ./bin/GabbieForget
+	@echo "GabbiePath="../"" >> ./bin/GabbieForget
 	cat ./src/Forget.bash >> ./bin/GabbieForget
 	@chmod a+x ./bin/*
 

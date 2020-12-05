@@ -7,7 +7,7 @@
 
 # Primary GabbieBot program
 
-### Hard-coded settings ###
+## Hard-coded settings
 
 # Fraction of the updates which use the three word Markov chains
 threeWordFrac = 0.25  # Suggestion: 0.25
@@ -15,20 +15,18 @@ threeWordFrac = 0.25  # Suggestion: 0.25
 # Make all letters lower case to improve the number of matches
 allLowerCase = True  # Suggestion: True
 
-### Debug settings ###
-
 # Turn on printing of the user input
 printUser = True  # For the text interface
 
 # Turn on command line debugging output
 debugGabbie = False
 
-### Import libraries ###
+# Import libraries
 
 import sys
 import random
 
-### Initialize variables
+# Initialize variables
 debugLine = ""  # A set of debug messages
 quitGabbie = False  # Quits gabbie if an error was found
 canPhrases = {}  # A list of canned responses
@@ -36,7 +34,7 @@ wordFreqs = {}  # A word list and the frequency of appearance
 wordPairs = {}  # A list of all pairs of words to predict the next word
 wordTrios = {}  # A list of all trios of words to predict the next word
 
-### Read memory files ###
+## Read memory files
 
 # Read personality
 try:
@@ -52,7 +50,7 @@ try:
         phrase = phrase.strip().split()
         phrase = phrase[1:]
         for j in range(len(phrase)):
-            if (j > 0):
+            if j > 0:
                 dummyLine += " "
             dummyLine += phrase[j]
         phrase = dummyLine
@@ -63,12 +61,12 @@ try:
         result = result.strip().split()
         result = result[1:]
         for j in range(len(result)):
-            if (j > 0):
+            if j > 0:
                 dummyLine += " "
             dummyLine += result[j]
         result = dummyLine
         # Change case
-        if (allLowerCase):
+        if allLowerCase:
             phrase = phrase.lower()
             result = result.lower()
         # Save pair
@@ -78,7 +76,7 @@ try:
 except:
     # Print an error message
     quitGabbie = True
-    if (debugGabbie):
+    if debugGabbie:
         debugLine += "  Exception: No personality memories were located."
         debugLine += '\n'
 
@@ -96,7 +94,7 @@ try:
         phrase = phrase.strip().split()
         phrase = phrase[1:]
         for j in range(len(phrase)):
-            if (j > 0):
+            if j > 0:
                 dummyLine += " "
             dummyLine += phrase[j]
         phrase = dummyLine
@@ -107,12 +105,12 @@ try:
         result = result.strip().split()
         result = result[1:]
         for j in range(len(result)):
-            if (j > 0):
+            if j > 0:
                 dummyLine += " "
             dummyLine += result[j]
         result = dummyLine
         # Change case
-        if (allLowerCase):
+        if allLowerCase:
             phrase = phrase.lower()
             result = result.lower()
         # Save pair
@@ -122,7 +120,7 @@ try:
 except:
     # Print an error message
     quitGabbie = True
-    if (debugGabbie):
+    if debugGabbie:
         debugLine += "  Exception: No greeting memories were located."
         debugLine += '\n'
 
@@ -159,7 +157,7 @@ try:
 except:
     # Print an error message
     quitGabbie = True
-    if (debugGabbie):
+    if debugGabbie:
         debugLine += "  Exception: No word pair memories were located."
         debugLine += '\n'
 
@@ -177,12 +175,11 @@ try:
     memFile.close()
 except:
     # Print an error message
-    if (debugGabbie):
+    if debugGabbie:
         debugLine += "  Exception: No word trio memories were located."
         debugLine += '\n'
 
-
-### Functions ###
+## Functions
 
 # Attempt to use known phrases
 def knownPhrases(userInput):
@@ -203,17 +200,17 @@ def ConvPairs(text, pair, ct):
     # Defined constraints
     maxWords = 40
     # Continue the sentence
-    if (pair in wordPairs):
+    if pair in wordPairs:
         # Add the next word
-        if (len(wordPairs[pair]) > 1):
+        if len(wordPairs[pair]) > 1:
             binSize = 1.0 / (len(wordPairs[pair]) - 1)
         else:
             binSize = 1.0 / len(wordPairs[pair])
         wordFound = False
         wordID = 0
         # Find a word with a biased random choice
-        while (wordFound == False):
-            if (random.random() < binSize):
+        while wordFound == False:
+            if random.random() < binSize:
                 # Accept this word
                 wordFound = True
             else:
@@ -232,14 +229,14 @@ def ConvPairs(text, pair, ct):
     # Check for punctuation
     lastChar = pair[-1]
     noEnd = True
-    if (lastChar == "!"):
+    if lastChar == "!":
         noEnd = False
-    if (lastChar == "."):
+    if lastChar == ".":
         noEnd = False
-    if (lastChar == "?"):
+    if lastChar == "?":
         noEnd = False
     # Avoid infinite conversations
-    if (ct > maxWords):
+    if ct > maxWords:
         # Stop the sentence
         noEnd = False
         # Add a period to improve the formatting
@@ -253,17 +250,17 @@ def ConvTrios(text, trio, ct):
     # Defined constraints
     maxWords = 40
     # Continue the sentence
-    if (trio in wordTrios):
+    if trio in wordTrios:
         # Add the next word
-        if (len(wordTrios[trio]) > 1):
+        if len(wordTrios[trio]) > 1:
             binSize = 1.0 / (len(wordTrios[trio]) - 1)
         else:
             binSize = 1.0 / len(wordTrios[trio])
         wordFound = False
         wordID = 0
         # Find a word with a biased random choice
-        while (wordFound == False):
-            if (random.random() < binSize):
+        while wordFound == False:
+            if random.random() < binSize:
                 # Accept this word
                 wordFound = True
             else:
@@ -282,14 +279,14 @@ def ConvTrios(text, trio, ct):
     # Check for punctuation
     lastChar = trio[-1]
     noEnd = True
-    if (lastChar == "!"):
+    if lastChar == "!":
         noEnd = False
-    if (lastChar == "."):
+    if lastChar == ".":
         noEnd = False
-    if (lastChar == "?"):
+    if lastChar == "?":
         noEnd = False
     # Avoid infinite conversations
-    if (ct > maxWords):
+    if ct > maxWords:
         # Stop the sentence
         noEnd = False
         # Add a period to improve the formatting
@@ -297,8 +294,7 @@ def ConvTrios(text, trio, ct):
     # Return the update conversation
     return noEnd, text, trio, ct
 
-
-### Main routines ###
+## Main routines
 
 # Print a blank line for formatting
 print("")
@@ -310,26 +306,26 @@ try:
     sentence += sys.argv[1]
     # Check punctuation
     lastChar = sentence[-1]
-    if ((lastChar != ".") and (lastChar != "!") and (lastChar != "?")):
+    if (lastChar != ".") and (lastChar != "!") and (lastChar != "?"):
         # Add a period
         sentence = sentence + "."
     # Improve formatting
-    if (sentence[0] != " "):
+    if sentence[0] != " ":
         sentence = " " + sentence
     # Change the case
-    if (allLowerCase):
+    if allLowerCase:
         sentence = sentence.lower()
     # Identify the user
     sentence = " User:" + sentence
     # Print the user input
     sentence += '\n'
-    if (printUser):
+    if printUser:
         print(sentence)
     # Reset the sentence for Gabbie
     sentence = ""
 except:
     # Ignore the error and do nothing
-    if (debugGabbie):
+    if debugGabbie:
         debugLine += "  Exception: No user input given."
         debugLine += '\n'
 
@@ -340,11 +336,11 @@ try:
     sentence += sys.argv[1]
     # Check punctuation
     lastChar = sentence[-1]
-    if ((lastChar != ".") and (lastChar != "!") and (lastChar != "?")):
+    if (lastChar != ".") and (lastChar != "!") and (lastChar != "?"):
         # Add a period
         sentence = sentence + "."
     # Change the case
-    if (allLowerCase):
+    if allLowerCase:
         sentence = sentence.lower()
     try:
         # Save the last three words as input for Gabbie
@@ -353,7 +349,7 @@ try:
         prevTrio = prevTrio[-3] + " " + prevTrio[-2] + " " + prevTrio[-1]
     except:
         # Save the last two words as input for Gabbie
-        if (debugGabbie):
+        if debugGabbie:
             debugLine += "  Exception: User input was less than three words."
             debugLine += '\n'
         prevTrio = None
@@ -363,26 +359,26 @@ try:
     sentence = ""
 except:
     # Randomly pick the first statement
-    if (debugGabbie):
+    if debugGabbie:
         debugLine += "  Exception: Could not form a word pair/trio."
         debugLine += '\n'
     prevTrio = None
-    if (quitGabbie):
+    if quitGabbie:
         prevPair = ""
     else:
         prevPair = random.choice(list(wordPairs.keys()))
     sentence = prevPair
 
-### Continue the conversation ###
+## Continue the conversation
 
-# Preprogrammed conversations
+# Pre-programmed conversations
 oldSent = sentence
 try:
     contSen = True
     initSent = sys.argv[1]
     # Check punctuation
     lastChar = initSent[-1]
-    if ((lastChar != ".") and (lastChar != "!") and (lastChar != "?")):
+    if (lastChar != ".") and (lastChar != "!") and (lastChar != "?"):
         # Add a period
         initSent = initSent + "."
     # Change case
@@ -402,20 +398,20 @@ except:
     contSen = True
 
 # Initialize variables
-if (quitGabbie):
+if quitGabbie:
     # Avoid crashes when no memory files were located
     contSen = False
 wordCt = 0  # Word counter
 
 # Generic conversations
-while (contSen):
+while contSen:
     # Decide if pairs or trios of words should be used
-    if ((prevTrio == None) or (random.random() > threeWordFrac)):
+    if (prevTrio is None) or (random.random() > threeWordFrac):
         # Use the the two word Markov chain
         contSen, sentence, prevPair, wordCt = ConvPairs(sentence, prevPair, wordCt)
         # Update previous trio
         prevTrio = sentence.strip().split()
-        if (len(prevTrio) > 2):
+        if len(prevTrio) > 2:
             # A valid trio exists
             prevTrio = prevTrio[-3] + " " + prevTrio[-2] + " " + prevTrio[-1]
         else:
@@ -435,7 +431,7 @@ sentence += '\n'
 sentence = sentence.lower()
 
 # Smoothly transion between user input and Gabbie output
-if (sentence[0] != " "):
+if sentence[0] != " ":
     sentence = " " + sentence
 
 # Add Gabbie's identity
