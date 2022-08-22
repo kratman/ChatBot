@@ -7,8 +7,6 @@
 
 # Python class to play twenty questions
 
-### Twenty question class ###
-
 class TwentyQuest:
     # Constructor
     def __init_(self):
