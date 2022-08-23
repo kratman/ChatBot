@@ -12,7 +12,16 @@ import random
 from Gabbie import GabbieBot
 
 # Main routines
+
+# Initialize Gabbie
 gabbie = GabbieBot()
+
+# Read trained memories
+gabbie.readPersonality()
+gabbie.readGreetings()
+gabbie.readFrequencies()
+gabbie.readPairs()
+gabbie.readTrios()
 
 # Print a blank line for formatting
 print("")
@@ -124,7 +133,7 @@ while contSen:
     # Decide if pairs or trios of words should be used
     if (prevTrio is None) or (random.random() > threeWordFrac):
         # Use the the two word Markov chain
-        contSen, sentence, prevPair, wordCt = ConvPairs(sentence, prevPair, wordCt)
+        contSen, sentence, prevPair, wordCt = markovPairs(sentence, prevPair, wordCt)
         # Update previous trio
         prevTrio = sentence.strip().split()
         if len(prevTrio) > 2:
@@ -135,7 +144,7 @@ while contSen:
             prevTrio = None
     else:
         # Use the three word Markov chain
-        contSen, sentence, prevTrio, wordCt = ConvTrios(sentence, prevTrio, wordCt)
+        contSen, sentence, prevTrio, wordCt = markovTrios(sentence, prevTrio, wordCt)
         # Update previous pair
         prevPair = sentence.strip().split()
         prevPair = prevPair[-2] + " " + prevPair[-1]
