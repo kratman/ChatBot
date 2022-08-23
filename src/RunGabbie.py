@@ -40,21 +40,21 @@ try:
     if sentence[0] != " ":
         sentence = " " + sentence
     # Change the case
-    if allLowerCase:
+    if gabbie.allLowerCase:
         sentence = sentence.lower()
     # Identify the user
     sentence = " User:" + sentence
     # Print the user input
     sentence += '\n'
-    if printUser:
+    if gabbie.printUser:
         print(sentence)
     # Reset the sentence for Gabbie
     sentence = ""
 except:
     # Ignore the error and do nothing
-    if debugGabbie:
-        debugLine += "  Exception: No user input given."
-        debugLine += '\n'
+    if gabbie.debugGabbie:
+        gabbie.debugLine += "  Exception: No user input given."
+        gabbie.debugLine += '\n'
 
 # Process the user's statement
 try:
@@ -67,7 +67,7 @@ try:
         # Add a period
         sentence = sentence + "."
     # Change the case
-    if allLowerCase:
+    if gabbie.allLowerCase:
         sentence = sentence.lower()
     try:
         # Save the last three words as input for Gabbie
@@ -76,9 +76,9 @@ try:
         prevTrio = prevTrio[-3] + " " + prevTrio[-2] + " " + prevTrio[-1]
     except:
         # Save the last two words as input for Gabbie
-        if debugGabbie:
-            debugLine += "  Exception: User input was less than three words."
-            debugLine += '\n'
+        if gabbie.debugGabbie:
+            gabbie.debugLine += "  Exception: User input was less than three words."
+            gabbie.debugLine += '\n'
         prevTrio = None
         prevPair = sentence.strip().split()
         prevPair = prevPair[-2] + " " + prevPair[-1]
@@ -86,14 +86,14 @@ try:
     sentence = ""
 except:
     # Randomly pick the first statement
-    if debugGabbie:
-        debugLine += "  Exception: Could not form a word pair/trio."
-        debugLine += '\n'
+    if gabbie.debugGabbie:
+        gabbie.debugLine += "  Exception: Could not form a word pair/trio."
+        gabbie.debugLine += '\n'
     prevTrio = None
-    if quitGabbie:
+    if gabbie.quitGabbie:
         prevPair = ""
     else:
-        prevPair = random.choice(list(wordPairs.keys()))
+        prevPair = gabbie.getRandomWord()
     sentence = prevPair
 
 # Pre-programmed conversations
@@ -107,23 +107,23 @@ try:
         # Add a period
         initSent = initSent + "."
     # Change case
-    if allLowerCase:
+    if gabbie.allLowerCase:
         initSent = initSent.lower()
     # Check for a response
-    contSen, sentence = knownPhrases(initSent)
+    contSen, sentence = gabbie.knownPhrases(initSent)
     # Restore the previous sentence
     if contSen:
         sentence = oldSent
 except:
     # Restore the previous sentence
-    if debugGabbie:
-        debugLine += "  Exception: User input could not be interpreted."
-        debugLine += '\n'
+    if gabbie.debugGabbie:
+        gabbie.debugLine += "  Exception: User input could not be interpreted."
+        gabbie.debugLine += '\n'
     sentence = oldSent
     contSen = True
 
 # Initialize variables
-if quitGabbie:
+if gabbie.quitGabbie:
     # Avoid crashes when no memory files were located
     contSen = False
 wordCt = 0  # Word counter
@@ -131,9 +131,9 @@ wordCt = 0  # Word counter
 # Generic conversations
 while contSen:
     # Decide if pairs or trios of words should be used
-    if (prevTrio is None) or (random.random() > threeWordFrac):
+    if (prevTrio is None) or (random.random() > gabbie.threeWordFrac):
         # Use the the two word Markov chain
-        contSen, sentence, prevPair, wordCt = markovPairs(sentence, prevPair, wordCt)
+        contSen, sentence, prevPair, wordCt = gabbie.markovPairs(sentence, prevPair, wordCt)
         # Update previous trio
         prevTrio = sentence.strip().split()
         if len(prevTrio) > 2:
@@ -144,7 +144,7 @@ while contSen:
             prevTrio = None
     else:
         # Use the three word Markov chain
-        contSen, sentence, prevTrio, wordCt = markovTrios(sentence, prevTrio, wordCt)
+        contSen, sentence, prevTrio, wordCt = gabbie.markovTrios(sentence, prevTrio, wordCt)
         # Update previous pair
         prevPair = sentence.strip().split()
         prevPair = prevPair[-2] + " " + prevPair[-1]
@@ -166,9 +166,9 @@ sentence = " Gabbie:" + sentence
 print(sentence)
 
 # Print debug information
-if debugGabbie:
-    if debugLine != "":
-        debugLine = "Debugging output:\n" + debugLine
+if gabbie.debugGabbie:
+    if gabbie.debugLine != "":
+        debugLine = "Debugging output:\n" + gabbie.debugLine
         print(debugLine)
 
 # Quit

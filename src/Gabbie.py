@@ -285,3 +285,6 @@ class GabbieBot:
             text += "."
         # Return the update conversation
         return noEnd, text, trio, ct
+
+    def getRandomWord(self):
+        return random.choice(list(self.wordPairs.keys()))
