@@ -14,10 +14,6 @@ GabbieBot: A simple chat bot
 
 [![GPL license](https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat)](https://github.com/kratman/ChatBot/blob/master/src/GPL_LICENSE)
 
-### Build tests
-
-**Travis CI build:** [![Build Status](https://travis-ci.com/kratman/ChatBot.svg?branch=master)](https://travis-ci.com/kratman/ChatBot)
-
 ### Introduction
 
 Gabbie is a simple artifical intelligence (i.e. a chat bot) for learning
