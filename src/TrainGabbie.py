@@ -163,44 +163,21 @@ def sortByFrequency(wordGroups, frequencies):
     for group in wordGroups:
         tempWords = list(wordGroups[group])
         sortedWords = []
-        for word in tempWords:
-            temp = [word, frequencies[word]]
+        for aWord in tempWords:
+            temp = [aWord, frequencies[aWord]]
             sortedWords.append(temp)
         sortedWords = sorted(sortedWords, key=SortKey)
         tempWords = []
-        for word in sortedWords:
-            tempWords.append(word[0])
+        for aWord in sortedWords:
+            tempWords.append(aWord[0])
         tempWords.reverse()
         wordGroups[group] = tempWords
     return wordGroups
 
-# Sort word pairs by frequency
-for pair in wordPairs:
-    tempWords = list(wordPairs[pair])
-    sortedWords = []
-    for word in tempWords:
-        temp = [word, wordFreqs[word]]
-        sortedWords.append(temp)
-    sortedWords = sorted(sortedWords, key=SortKey)
-    tempWords = []
-    for word in sortedWords:
-        tempWords.append(word[0])
-    tempWords.reverse()
-    wordPairs[pair] = tempWords
 
-# Sort word trios by frequency
-for trio in wordTrios:
-    tempWords = list(wordTrios[trio])
-    sortedWords = []
-    for word in tempWords:
-        temp = [word, wordFreqs[word]]
-        sortedWords.append(temp)
-    sortedWords = sorted(sortedWords, key=SortKey)
-    tempWords = []
-    for word in sortedWords:
-        tempWords.append(word[0])
-    tempWords.reverse()
-    wordTrios[trio] = tempWords
+# Sort groups by frequency
+wordPairs = sortByFrequency(wordPairs, wordFreqs)
+wordTrios = sortByFrequency(wordTrios, wordFreqs)
 
 # Save word frequency
 memFile = open(GabbiePath + "/Knowledge/Memories_frequency.txt", "w")
