@@ -16,7 +16,7 @@ GabbieBot: A simple chat bot
 
 ### Introduction
 
-Gabbie is a simple artifical intelligence (i.e. a chat bot) for learning
+Gabbie is a simple artificial intelligence (i.e. a chatbot) for learning
 and teaching machine learning techniques.
 
 Gabbie uses a Markov chain model to mimic the speech patterns in books.
@@ -27,7 +27,7 @@ appear more frequently in the books.
 
 Markov chains algorithms are relatively easy to design, but they are very
 sensitive to the input source and the number of words in the chain. One of the
-primary advantages of the algorithm is that allows Gabbie to asily learn any
+primary advantages of the algorithm is that allows Gabbie to easily learn any
 language.
 
 ### Installation
