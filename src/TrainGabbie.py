@@ -36,7 +36,7 @@ def SortKey(wordList):
     return wordList[1]
 
 
-# Makes the output look a little bit better
+# Makes the output look a little better
 print("")
 
 # Use a count of the arguments given to python
@@ -67,7 +67,7 @@ numBooks -= numErrors
 for book in bookNames:
     # Open the book in read (r) mode
     bookFile = open(book, "r")
-    # Loop over all of the lines in the book
+    # Loop over all the lines in the book
     tempList = []  # A simpler format for the word list
     for sentence in bookFile:
         # Use regular expressions to remove garbage characters
@@ -88,24 +88,23 @@ for book in bookNames:
         # Loop over all words
         for word in words:
             tempList.append(word)
+            totalWords += 1.0
             # Check if the word is in the dictionary
             if word in wordFreqs:
                 # Update the number of times the word appears
                 wordFreqs[word] += 1.0
-                # Update the word count
-                totalWords += 1.0
             else:
                 # Add the word to the dictionary
                 tempDict = {word: 1.0}  # Blank item for the word
                 wordFreqs.update(tempDict)  # Add the new word
                 # Update the statistics
-                totalWords += 1.0
                 numWords += 1.0
+
     # Gather word pairs/trios and the next word
     bookWords = len(tempList)  # Number of words in this book
-    for i in range(bookWords):
+    for i in range(1, bookWords):
         # Add pairs of words
-        if (i > 0) and (i < bookWords - 2):
+        if i < bookWords - 2:
             # Identify a pair of words
             pair = tempList[i - 1] + " " + tempList[i]
             # Identify a word that follows the pair
@@ -125,8 +124,7 @@ for book in bookNames:
                     # Add the word to the list
                     wordPairs[pair].append(result)
             else:
-                newList = []
-                newList.append(result)
+                newList = [result]
                 tempDict = {pair: newList}
                 wordPairs.update(tempDict)
         # Add trios of words
@@ -150,26 +148,38 @@ for book in bookNames:
                     # Add the word to the list
                     wordTrios[trio].append(result)
             else:
-                newList = []
-                newList.append(result)
+                newList = [result]
                 tempDict = {trio: newList}
                 wordTrios.update(tempDict)
-    # Clear memory and close the book
-    tempList = []
+    # Close the book
     bookFile.close()
 
 # Calculate the statistical weight of the word
 for word in wordFreqs:
     wordFreqs[word] = wordFreqs[word] / totalWords
 
+
+def sortByFrequency(wordGroups, frequencies):
+    for group in wordGroups:
+        tempWords = list(wordGroups[group])
+        sortedWords = []
+        for word in tempWords:
+            temp = [word, frequencies[word]]
+            sortedWords.append(temp)
+        sortedWords = sorted(sortedWords, key=SortKey)
+        tempWords = []
+        for word in sortedWords:
+            tempWords.append(word[0])
+        tempWords.reverse()
+        wordGroups[group] = tempWords
+    return wordGroups
+
 # Sort word pairs by frequency
 for pair in wordPairs:
     tempWords = list(wordPairs[pair])
     sortedWords = []
     for word in tempWords:
-        temp = []
-        temp.append(word)
-        temp.append(wordFreqs[word])
+        temp = [word, wordFreqs[word]]
         sortedWords.append(temp)
     sortedWords = sorted(sortedWords, key=SortKey)
     tempWords = []
@@ -183,9 +193,7 @@ for trio in wordTrios:
     tempWords = list(wordTrios[trio])
     sortedWords = []
     for word in tempWords:
-        temp = []
-        temp.append(word)
-        temp.append(wordFreqs[word])
+        temp = [word, wordFreqs[word]]
         sortedWords.append(temp)
     sortedWords = sorted(sortedWords, key=SortKey)
     tempWords = []
