@@ -70,7 +70,7 @@ class GabbieBot:
                 self.canPhrases.update({phrase: result})
             # Close file
             memFile.close()
-        except:
+        except FileNotFoundError:
             # Print an error message
             quitGabbie = True
             if self.debugGabbie:
@@ -114,7 +114,7 @@ class GabbieBot:
                 self.canPhrases.update({phrase: result})
             # Close file
             memFile.close()
-        except:
+        except FileNotFoundError:
             # Print an error message
             self.quitGabbie = True
             if self.debugGabbie:
@@ -132,7 +132,7 @@ class GabbieBot:
                 self.wordFreqs.update(tempDict)
             # Close file
             memFile.close()
-        except:
+        except FileNotFoundError:
             # Print an error message
             self.quitGabbie = True
             if self.debugGabbie:
@@ -151,7 +151,7 @@ class GabbieBot:
                 self.wordPairs.update(tempDict)
             # Close file
             memFile.close()
-        except:
+        except FileNotFoundError:
             # Print an error message
             self.quitGabbie = True
             if self.debugGabbie:
@@ -170,7 +170,7 @@ class GabbieBot:
                 self.wordTrios.update(tempDict)
             # Close file
             memFile.close()
-        except:
+        except FileNotFoundError:
             # Print an error message
             if self.debugGabbie:
                 self.debugLine += "  Exception: No word trio memories were located."

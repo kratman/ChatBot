@@ -50,7 +50,7 @@ try:
         print(sentence)
     # Reset the sentence for Gabbie
     sentence = ""
-except:
+except IndexError:
     # Ignore the error and do nothing
     if gabbie.debugGabbie:
         gabbie.debugLine += "  Exception: No user input given."
@@ -74,7 +74,7 @@ try:
         prevPair = None
         prevTrio = sentence.strip().split()
         prevTrio = prevTrio[-3] + " " + prevTrio[-2] + " " + prevTrio[-1]
-    except:
+    except IndexError:
         # Save the last two words as input for Gabbie
         if gabbie.debugGabbie:
             gabbie.debugLine += "  Exception: User input was less than three words."
@@ -84,7 +84,7 @@ try:
         prevPair = prevPair[-2] + " " + prevPair[-1]
     # Reset the sentence for Gabbie
     sentence = ""
-except:
+except IndexError:
     # Randomly pick the first statement
     if gabbie.debugGabbie:
         gabbie.debugLine += "  Exception: Could not form a word pair/trio."
@@ -114,7 +114,7 @@ try:
     # Restore the previous sentence
     if contSen:
         sentence = oldSent
-except:
+except IndexError:
     # Restore the previous sentence
     if gabbie.debugGabbie:
         gabbie.debugLine += "  Exception: User input could not be interpreted."
@@ -132,7 +132,7 @@ wordCt = 0  # Word counter
 while contSen:
     # Decide if pairs or trios of words should be used
     if (prevTrio is None) or (random.random() > gabbie.threeWordFrac):
-        # Use the the two word Markov chain
+        # Use the two word Markov chain
         contSen, sentence, prevPair, wordCt = gabbie.markovPairs(sentence, prevPair, wordCt)
         # Update previous trio
         prevTrio = sentence.strip().split()
