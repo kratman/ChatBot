@@ -16,7 +16,7 @@ GabbieBot: A simple chat bot
 
 ### Build tests
 
-**Travis CI build:** [![Build Status](https://travis-ci.org/kratman/ChatBot.svg?branch=master)](https://travis-ci.org/kratman/ChatBot)
+**Travis CI build:** [![Build Status](https://travis-ci.com/kratman/ChatBot.svg?branch=master)](https://travis-ci.org/kratman/ChatBot)
 
 ### Introduction
 
