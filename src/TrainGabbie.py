@@ -36,6 +36,22 @@ def SortKey(wordList):
     return wordList[1]
 
 
+def sortByFrequency(wordGroups, frequencies):
+    for group in wordGroups:
+        tempWords = list(wordGroups[group])
+        sortedWords = []
+        for aWord in tempWords:
+            temp = [aWord, frequencies[aWord]]
+            sortedWords.append(temp)
+        sortedWords = sorted(sortedWords, key=SortKey)
+        tempWords = []
+        for aWord in sortedWords:
+            tempWords.append(aWord[0])
+        tempWords.reverse()
+        wordGroups[group] = tempWords
+    return wordGroups
+
+
 # Makes the output look a little better
 print("")
 
@@ -157,23 +173,6 @@ for book in bookNames:
 # Calculate the statistical weight of the word
 for word in wordFreqs:
     wordFreqs[word] = wordFreqs[word] / totalWords
-
-
-def sortByFrequency(wordGroups, frequencies):
-    for group in wordGroups:
-        tempWords = list(wordGroups[group])
-        sortedWords = []
-        for aWord in tempWords:
-            temp = [aWord, frequencies[aWord]]
-            sortedWords.append(temp)
-        sortedWords = sorted(sortedWords, key=SortKey)
-        tempWords = []
-        for aWord in sortedWords:
-            tempWords.append(aWord[0])
-        tempWords.reverse()
-        wordGroups[group] = tempWords
-    return wordGroups
-
 
 # Sort groups by frequency
 wordPairs = sortByFrequency(wordPairs, wordFreqs)
