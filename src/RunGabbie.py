@@ -84,8 +84,6 @@ contSen, sentence = gabbie.knownPhrases(userInput)
 # Restore the previous sentence
 if contSen:
     sentence = oldSent
-else:
-    contSen = True
 
 # Initialize variables
 if gabbie.quitGabbie:
@@ -119,27 +117,15 @@ while contSen:
             extraWord = userInput.strip().split()[-1]
             prevPair = extraWord + " " + prevPair[-1]
 
-# Print an extra blank line to format the command line output
-sentence += '\n'
-
-# Remove random capitalization
-sentence = sentence.lower()
-
 # Smoothly transition between user input and Gabbie output
 if sentence[0] != " ":
     sentence = " " + sentence
 
-# Add Gabbie's identity
-sentence = " Gabbie:" + sentence
-
 # Print the result
-print(sentence)
+print(" Gabbie:" + gabbie.fixCase(sentence) + '\n')
 
 # Print debug information
 if gabbie.debugGabbie:
     if gabbie.debugLine != "":
         debugLine = "Debugging output:\n" + gabbie.debugLine
         print(debugLine)
-
-# Quit
-exit(0)
