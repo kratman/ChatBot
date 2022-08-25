@@ -54,7 +54,6 @@ try:
     sentence = userInput
     try:
         # Save the last three words as input for Gabbie
-        prevPair = None
         prevTrio = sentence.strip().split()
         prevTrio = prevTrio[-3] + " " + prevTrio[-2] + " " + prevTrio[-1]
     except IndexError:
@@ -63,8 +62,8 @@ try:
             gabbie.debugLine += "  Exception: User input was less than three words."
             gabbie.debugLine += '\n'
         prevTrio = None
-        prevPair = sentence.strip().split()
-        prevPair = prevPair[-2] + " " + prevPair[-1]
+    prevPair = sentence.strip().split()
+    prevPair = prevPair[-2] + " " + prevPair[-1]
     # Reset the sentence for Gabbie
     sentence = ""
 except IndexError:
@@ -81,19 +80,11 @@ except IndexError:
 
 # Pre-programmed conversations
 oldSent = sentence
-try:
-    initSent = userInput
-    # Check for a response
-    contSen, sentence = gabbie.knownPhrases(initSent)
-    # Restore the previous sentence
-    if contSen:
-        sentence = oldSent
-except IndexError:
-    # Restore the previous sentence
-    if gabbie.debugGabbie:
-        gabbie.debugLine += "  Exception: User input could not be interpreted."
-        gabbie.debugLine += '\n'
+contSen, sentence = gabbie.knownPhrases(userInput)
+# Restore the previous sentence
+if contSen:
     sentence = oldSent
+else:
     contSen = True
 
 # Initialize variables
