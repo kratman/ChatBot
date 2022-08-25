@@ -15,7 +15,7 @@ class GabbieBot:
         # Fraction of the updates which use the three word Markov chains
         self.threeWordFrac = 0.25  # Suggestion: 0.25
         self.GabbiePath = "./"
-        self.acceptablePunctuation = [".", "!", "?", ","]
+        self.acceptablePunctuation = [".", "!", "?", ",", ":", ";"]
 
         # Make all letters lower case to improve the number of matches
         self.allLowerCase = True  # Suggestion: True

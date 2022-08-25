@@ -25,26 +25,22 @@ gabbie.readTrios()
 
 # Print a blank line for formatting
 print("")
-userInput = ""
 
 # Save user's input
+userInput = ""
 try:
     # Save the user input
     sentence = ""
     sentence += sys.argv[1]
     sentence = gabbie.fixPunctuation(sentence)
+    sentence = gabbie.fixCase(sentence)
+    userInput = sentence
     # Improve formatting
     if sentence[0] != " ":
         sentence = " " + sentence
-    sentence = gabbie.fixCase(sentence)
-    # Identify the user
-    sentence = " User:" + sentence
-    # Print the user input
-    sentence += '\n'
     if gabbie.printUser:
-        print(sentence)
+        print(" User:" + sentence + '\n')
     # Reset the sentence for Gabbie
-    userInput = sentence
     sentence = ""
 except IndexError:
     # Ignore the error and do nothing
@@ -55,10 +51,7 @@ except IndexError:
 # Process the user's statement
 try:
     # Copy the user input
-    sentence = ""
-    sentence += sys.argv[1]
-    sentence = gabbie.fixPunctuation(sentence)
-    sentence = gabbie.fixCase(sentence)
+    sentence = userInput
     try:
         # Save the last three words as input for Gabbie
         prevPair = None
@@ -89,9 +82,7 @@ except IndexError:
 # Pre-programmed conversations
 oldSent = sentence
 try:
-    initSent = sys.argv[1]
-    initSent = gabbie.fixPunctuation(initSent)
-    initSent = gabbie.fixCase(initSent)
+    initSent = userInput
     # Check for a response
     contSen, sentence = gabbie.knownPhrases(initSent)
     # Restore the previous sentence
