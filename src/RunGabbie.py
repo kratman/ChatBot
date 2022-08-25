@@ -25,6 +25,7 @@ gabbie.readTrios()
 
 # Print a blank line for formatting
 print("")
+userInput = ""
 
 # Save user's input
 try:
@@ -43,6 +44,7 @@ try:
     if gabbie.printUser:
         print(sentence)
     # Reset the sentence for Gabbie
+    userInput = sentence
     sentence = ""
 except IndexError:
     # Ignore the error and do nothing
@@ -128,7 +130,12 @@ while contSen:
         contSen, sentence, prevTrio, wordCt = gabbie.markovTrios(sentence, prevTrio, wordCt)
         # Update previous pair
         prevPair = sentence.strip().split()
-        prevPair = prevPair[-2] + " " + prevPair[-1]
+        if len(prevPair) > 2:
+            prevPair = prevPair[-2] + " " + prevPair[-1]
+        else:
+            # Only 1 word in the sentence
+            extraWord = userInput.strip().split()[-1]
+            prevPair = extraWord + " " + prevPair[-1]
 
 # Print an extra blank line to format the command line output
 sentence += '\n'
