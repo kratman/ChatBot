@@ -31,17 +31,11 @@ try:
     # Save the user input
     sentence = ""
     sentence += sys.argv[1]
-    # Check punctuation
-    lastChar = sentence[-1]
-    if (lastChar != ".") and (lastChar != "!") and (lastChar != "?"):
-        # Add a period
-        sentence = sentence + "."
+    sentence = gabbie.fixPunctuation(sentence)
     # Improve formatting
     if sentence[0] != " ":
         sentence = " " + sentence
-    # Change the case
-    if gabbie.allLowerCase:
-        sentence = sentence.lower()
+    sentence = gabbie.fixCase(sentence)
     # Identify the user
     sentence = " User:" + sentence
     # Print the user input
@@ -61,14 +55,8 @@ try:
     # Copy the user input
     sentence = ""
     sentence += sys.argv[1]
-    # Check punctuation
-    lastChar = sentence[-1]
-    if (lastChar != ".") and (lastChar != "!") and (lastChar != "?"):
-        # Add a period
-        sentence = sentence + "."
-    # Change the case
-    if gabbie.allLowerCase:
-        sentence = sentence.lower()
+    sentence = gabbie.fixPunctuation(sentence)
+    sentence = gabbie.fixCase(sentence)
     try:
         # Save the last three words as input for Gabbie
         prevPair = None
@@ -99,16 +87,9 @@ except IndexError:
 # Pre-programmed conversations
 oldSent = sentence
 try:
-    contSen = True
     initSent = sys.argv[1]
-    # Check punctuation
-    lastChar = initSent[-1]
-    if (lastChar != ".") and (lastChar != "!") and (lastChar != "?"):
-        # Add a period
-        initSent = initSent + "."
-    # Change case
-    if gabbie.allLowerCase:
-        initSent = initSent.lower()
+    initSent = gabbie.fixPunctuation(initSent)
+    initSent = gabbie.fixCase(initSent)
     # Check for a response
     contSen, sentence = gabbie.knownPhrases(initSent)
     # Restore the previous sentence

@@ -15,6 +15,7 @@ class GabbieBot:
         # Fraction of the updates which use the three word Markov chains
         self.threeWordFrac = 0.25  # Suggestion: 0.25
         self.GabbiePath = "./"
+        self.acceptablePunctuation = [".", "!", "?", ","]
 
         # Make all letters lower case to improve the number of matches
         self.allLowerCase = True  # Suggestion: True
@@ -32,6 +33,18 @@ class GabbieBot:
         self.wordFreqs = {}  # A word list and the frequency of appearance
         self.wordPairs = {}  # A list of all pairs of words to predict the next word
         self.wordTrios = {}  # A list of all trios of words to predict the next word
+
+    def fixPunctuation(self, text):
+        lastChar = text[-1]
+        if lastChar not in self.acceptablePunctuation:
+            # Add a period
+            text += "."
+        return text
+
+    def fixCase(self, text):
+        if self.allLowerCase:
+            text = text.lower()
+        return text
 
     def readPersonality(self):
         try:
