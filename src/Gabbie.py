@@ -46,62 +46,54 @@ class GabbieBot:
             text = text.lower()
         return text
 
-    def readPreProgrammed(self, fileName):
-        # Open file
-        memFile = open(self.GabbiePath + fileName, "r")
-        memData = memFile.readlines()
-        # Read pairs of phrases and responses
-        for i in range(len(memData) // 2):
-            # Create a temporary string for storage
-            dummyLine = ""
-            # Read phrase
-            phrase = memData[2 * i]
-            phrase = phrase.strip().split()
-            phrase = phrase[1:]
-            for j in range(len(phrase)):
-                if j > 0:
-                    dummyLine += " "
-                dummyLine += phrase[j]
-            phrase = dummyLine
-            # Reset temporary string
-            dummyLine = ""
-            # Read response
-            result = memData[2 * i + 1]
-            result = result.strip().split()
-            result = result[1:]
-            for j in range(len(result)):
-                if j > 0:
-                    dummyLine += " "
-                dummyLine += result[j]
-            result = dummyLine
-            # Change case
-            if self.allLowerCase:
-                phrase = phrase.lower()
-                result = result.lower()
-            # Save pair
-            self.canPhrases.update({phrase: result})
-        # Close file
-        memFile.close()
+    def readPreProgrammed(self, fileName, errorMessage):
+        try:
+            # Open file
+            memFile = open(self.GabbiePath + fileName, "r")
+            memData = memFile.readlines()
+            # Read pairs of phrases and responses
+            for i in range(len(memData) // 2):
+                # Create a temporary string for storage
+                dummyLine = ""
+                # Read phrase
+                phrase = memData[2 * i]
+                phrase = phrase.strip().split()
+                phrase = phrase[1:]
+                for j in range(len(phrase)):
+                    if j > 0:
+                        dummyLine += " "
+                    dummyLine += phrase[j]
+                phrase = dummyLine
+                # Reset temporary string
+                dummyLine = ""
+                # Read response
+                result = memData[2 * i + 1]
+                result = result.strip().split()
+                result = result[1:]
+                for j in range(len(result)):
+                    if j > 0:
+                        dummyLine += " "
+                    dummyLine += result[j]
+                result = dummyLine
+                # Change case
+                if self.allLowerCase:
+                    phrase = phrase.lower()
+                    result = result.lower()
+                # Save pair
+                self.canPhrases.update({phrase: result})
+            # Close file
+            memFile.close()
+        except FileNotFoundError:
+            # Print an error message
+            if self.debugGabbie:
+                self.debugLine += "  " + errorMessage
+                self.debugLine += '\n'
 
     def readPersonality(self):
-        try:
-            self.readPreProgrammed("/Canned/Personality.txt")
-        except FileNotFoundError:
-            # Print an error message
-            quitGabbie = True
-            if self.debugGabbie:
-                self.debugLine += "  Exception: No personality memories were located."
-                self.debugLine += '\n'
+        self.readPreProgrammed("/Canned/Personality.txt", "Exception: No personality memories were located.")
 
     def readGreetings(self):
-        try:
-            self.readPreProgrammed("/Canned/Greetings.txt")
-        except FileNotFoundError:
-            # Print an error message
-            self.quitGabbie = True
-            if self.debugGabbie:
-                self.debugLine += "  Exception: No greeting memories were located."
-                self.debugLine += '\n'
+        self.readPreProgrammed("/Canned/Greetings.txt", "Exception: No greeting memories were located.")
 
     def readFrequencies(self):
         try:

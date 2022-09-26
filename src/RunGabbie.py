@@ -118,7 +118,7 @@ while contSen:
             prevPair = extraWord + " " + prevPair[-1]
 
 # Smoothly transition between user input and Gabbie output
-if sentence[0] != " ":
+if len(sentence) > 0 and sentence[0] != " ":
     sentence = " " + sentence
 
 # Print the result
