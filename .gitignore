@@ -4,3 +4,4 @@ Knowledge/Memories_*
 bin/GabbieForget
 bin/RunGabbie
 bin/TrainGabbie
+*/__pycache__

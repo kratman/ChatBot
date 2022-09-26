@@ -23,6 +23,9 @@ import sys
 allLowerCase = True  # Suggestion: True
 GabbiePath = "./"
 
+# Symbols to remove from the texts
+removalList = [r'\[', r'\{', r'\(', r'\<', r'\]', r'\}', r'\)', r'\>']
+
 # Initialize variables
 totalWords = 0.0  # Total number of words in all books
 numWords = 0.0  # Number of unique words in all books
@@ -88,14 +91,8 @@ for book in bookNames:
     for sentence in bookFile:
         # Use regular expressions to remove garbage characters
         words = sentence  # Make a copy
-        words = re.sub(r'\[', "", words)
-        words = re.sub(r'\{', "", words)
-        words = re.sub(r'\(', "", words)
-        words = re.sub(r'\<', "", words)
-        words = re.sub(r'\]', "", words)
-        words = re.sub(r'\}', "", words)
-        words = re.sub(r'\)', "", words)
-        words = re.sub(r'\>', "", words)
+        for symbol in removalList:
+            words = re.sub(symbol, "", words)
         # Change the case
         if allLowerCase:
             words = words.lower()
