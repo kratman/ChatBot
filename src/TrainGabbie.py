@@ -23,9 +23,6 @@ import sys
 allLowerCase = True  # Suggestion: True
 GabbiePath = "./"
 
-# Symbols to remove from the texts
-removalList = [r'\[', r'\{', r'\(', r'\<', r'\]', r'\}', r'\)', r'\>']
-
 # Initialize variables
 totalWords = 0.0  # Total number of words in all books
 numWords = 0.0  # Number of unique words in all books
@@ -37,6 +34,15 @@ wordTrios = {}  # A list of all trios of words
 
 def SortKey(wordList):
     return wordList[1]
+
+
+def removeSpecialCharacters(text):
+    # Symbols to remove from the texts
+    removalList = [r'\[', r'\{', r'\(', r'\<', r'\]', r'\}', r'\)', r'\>']
+    newText = text  # Make a copy
+    for symbol in removalList:
+        newText = re.sub(symbol, "", newText)
+    return newText
 
 
 def sortByFrequency(wordGroups, frequencies):
@@ -90,9 +96,7 @@ for book in bookNames:
     tempList = []  # A simpler format for the word list
     for sentence in bookFile:
         # Use regular expressions to remove garbage characters
-        words = sentence  # Make a copy
-        for symbol in removalList:
-            words = re.sub(symbol, "", words)
+        words = removeSpecialCharacters(sentence)
         # Change the case
         if allLowerCase:
             words = words.lower()

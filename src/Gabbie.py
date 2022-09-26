@@ -46,43 +46,46 @@ class GabbieBot:
             text = text.lower()
         return text
 
+    def readPreProgrammed(self, fileName):
+        # Open file
+        memFile = open(self.GabbiePath + fileName, "r")
+        memData = memFile.readlines()
+        # Read pairs of phrases and responses
+        for i in range(len(memData) // 2):
+            # Create a temporary string for storage
+            dummyLine = ""
+            # Read phrase
+            phrase = memData[2 * i]
+            phrase = phrase.strip().split()
+            phrase = phrase[1:]
+            for j in range(len(phrase)):
+                if j > 0:
+                    dummyLine += " "
+                dummyLine += phrase[j]
+            phrase = dummyLine
+            # Reset temporary string
+            dummyLine = ""
+            # Read response
+            result = memData[2 * i + 1]
+            result = result.strip().split()
+            result = result[1:]
+            for j in range(len(result)):
+                if j > 0:
+                    dummyLine += " "
+                dummyLine += result[j]
+            result = dummyLine
+            # Change case
+            if self.allLowerCase:
+                phrase = phrase.lower()
+                result = result.lower()
+            # Save pair
+            self.canPhrases.update({phrase: result})
+        # Close file
+        memFile.close()
+
     def readPersonality(self):
         try:
-            # Open file
-            memFile = open(self.GabbiePath + "/Canned/Personality.txt", "r")
-            memData = memFile.readlines()
-            # Read pairs of phrases and responses
-            for i in range(len(memData) // 2):
-                # Create a temporary string for storage
-                dummyLine = ""
-                # Read phrase
-                phrase = memData[2 * i]
-                phrase = phrase.strip().split()
-                phrase = phrase[1:]
-                for j in range(len(phrase)):
-                    if j > 0:
-                        dummyLine += " "
-                    dummyLine += phrase[j]
-                phrase = dummyLine
-                # Reset temporary string
-                dummyLine = ""
-                # Read response
-                result = memData[2 * i + 1]
-                result = result.strip().split()
-                result = result[1:]
-                for j in range(len(result)):
-                    if j > 0:
-                        dummyLine += " "
-                    dummyLine += result[j]
-                result = dummyLine
-                # Change case
-                if self.allLowerCase:
-                    phrase = phrase.lower()
-                    result = result.lower()
-                # Save pair
-                self.canPhrases.update({phrase: result})
-            # Close file
-            memFile.close()
+            self.readPreProgrammed("/Canned/Personality.txt")
         except FileNotFoundError:
             # Print an error message
             quitGabbie = True
@@ -92,41 +95,7 @@ class GabbieBot:
 
     def readGreetings(self):
         try:
-            # Open file
-            memFile = open(self.GabbiePath + "/Canned/Greetings.txt", "r")
-            memData = memFile.readlines()
-            # Read pairs of phrases and responses
-            for i in range(len(memData) // 2):
-                # Create a temporary string for storage
-                dummyLine = ""
-                # Read phrase
-                phrase = memData[2 * i]
-                phrase = phrase.strip().split()
-                phrase = phrase[1:]
-                for j in range(len(phrase)):
-                    if j > 0:
-                        dummyLine += " "
-                    dummyLine += phrase[j]
-                phrase = dummyLine
-                # Reset temporary string
-                dummyLine = ""
-                # Read response
-                result = memData[2 * i + 1]
-                result = result.strip().split()
-                result = result[1:]
-                for j in range(len(result)):
-                    if j > 0:
-                        dummyLine += " "
-                    dummyLine += result[j]
-                result = dummyLine
-                # Change case
-                if self.allLowerCase:
-                    phrase = phrase.lower()
-                    result = result.lower()
-                # Save pair
-                self.canPhrases.update({phrase: result})
-            # Close file
-            memFile.close()
+            self.readPreProgrammed("/Canned/Greetings.txt")
         except FileNotFoundError:
             # Print an error message
             self.quitGabbie = True
@@ -175,9 +144,9 @@ class GabbieBot:
         try:
             # Open file
             memFile = open(self.GabbiePath + "/Knowledge/Memories_trios.txt", "r")
-            for triolist in memFile:
+            for trioList in memFile:
                 # Read trio list
-                tempData = triolist.strip().split()
+                tempData = trioList.strip().split()
                 tempTrio = tempData[0] + " " + tempData[1] + " " + tempData[2]
                 tempDict = {tempTrio: tempData[3:]}
                 self.wordTrios.update(tempDict)
