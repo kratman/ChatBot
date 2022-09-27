@@ -8,7 +8,7 @@
 
 ### Python settings ###
 
-PYPATH=/usr/bin/python
+PYPATH=$(shell which python)
 
 ### Sed commands ###
 
@@ -45,6 +45,7 @@ binary:
 	echo "#!/bin/bash" > ./bin/GabbieForget
 	cat ./src/Forget.bash >> ./bin/GabbieForget
 	@chmod a+x ./bin/*
+	@cp ./src/Gabbie.py ./bin/Gabbie.py
 
 title:	
 	@echo ""; \
