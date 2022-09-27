@@ -38,14 +38,15 @@ binary:
 	@echo 'echo "#!$(PYPATH)" > ./bin/TrainGabbie'; \
 	echo "!!${PYPATH}" > ./bin/TrainGabbie
 	cat ./src/TrainGabbie.py >> ./bin/TrainGabbie
-	@sed $(SEDI) 's/\#.*//g' ./bin/*; \
+	@cp ./src/Gabbie.py ./bin/Gabbie.py; \
+	sed $(SEDI) 's/\#.*//g' ./bin/*; \
 	sed $(SEDI) 's/[[:space:]]*$$//g' ./bin/*; \
 	sed $(SEDI) '/^$$/d' ./bin/*; \
 	sed $(SEDI) 's/\!\!/\#\!/g' ./bin/*
 	echo "#!/bin/bash" > ./bin/GabbieForget
 	cat ./src/Forget.bash >> ./bin/GabbieForget
 	@chmod a+x ./bin/*
-	@cp ./src/Gabbie.py ./bin/Gabbie.py
+
 
 title:	
 	@echo ""; \
