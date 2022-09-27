@@ -1,10 +1,9 @@
-###########################
-#                         #
-#        GabbieBot        #
-#                         #
-#    A simple chat bot    #
-#                         #
-###########################
+##############################################################################
+#                                                                            #
+#                        GabbieBot: A simple chat bot                        #
+#                              By Eric G. Kratz                              #
+#                                                                            #
+##############################################################################
 
 ### Python settings ###
 
@@ -32,6 +31,7 @@ binary:
 	echo "### Building executables ###"; \
 	echo ""; \
 	mkdir -p bin
+	@rm -rf ./bin/__pycache__
 	@echo 'echo "#!$(PYPATH)" > ./bin/RunGabbie'; \
 	echo "!!${PYPATH}" > ./bin/RunGabbie
 	cat ./src/RunGabbie.py >> ./bin/RunGabbie
