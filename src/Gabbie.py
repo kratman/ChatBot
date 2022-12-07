@@ -16,6 +16,7 @@ class GabbieBot:
         self.threeWordFrac = 0.25  # Suggestion: 0.25
         self.GabbiePath = "./"
         self.acceptablePunctuation = [".", "!", "?", ",", ":", ";"]
+        self.maxWords = 40
 
         # Make all letters lower case to improve the number of matches
         self.allLowerCase = True  # Suggestion: True
@@ -163,8 +164,6 @@ class GabbieBot:
         return notFound, answer
 
     def markovPairs(self, text, pair, ct):
-        # Defined constraints
-        maxWords = 40
         # Continue the sentence
         if pair in self.wordPairs:
             # Add the next word
@@ -194,26 +193,11 @@ class GabbieBot:
             text += " " + pair
             ct += 2
         # Check for punctuation
-        lastCharacter = pair[-1]
-        noEnd = True
-        if lastCharacter == "!":
-            noEnd = False
-        if lastCharacter == ".":
-            noEnd = False
-        if lastCharacter == "?":
-            noEnd = False
-        # Avoid infinite conversations
-        if ct > maxWords:
-            # Stop the sentence
-            noEnd = False
-            # Add a period to improve the formatting
-            text += "."
+        noEnd, text = self.checkEndOfSentence(pair, text, ct)
         # Return the update conversation
         return noEnd, text, pair, ct
 
     def markovTrios(self, text, trio, ct):
-        # Defined constraints
-        maxWords = 40
         # Continue the sentence
         if trio in self.wordTrios:
             # Add the next word
@@ -243,22 +227,22 @@ class GabbieBot:
             text += " " + trio
             ct += 3
         # Check for punctuation
-        lastCharacter = trio[-1]
+        noEnd, text = self.checkEndOfSentence(trio, text, ct)
+        # Return the update conversation
+        return noEnd, text, trio, ct
+
+    def checkEndOfSentence(self, phrase, output, ct):
+        lastCharacter = phrase[-1]
         noEnd = True
-        if lastCharacter == "!":
-            noEnd = False
-        if lastCharacter == ".":
-            noEnd = False
-        if lastCharacter == "?":
+        if lastCharacter not in ["!", ".", "?"]:
             noEnd = False
         # Avoid infinite conversations
-        if ct > maxWords:
+        if ct > self.maxWords:
             # Stop the sentence
             noEnd = False
             # Add a period to improve the formatting
-            text += "."
-        # Return the update conversation
-        return noEnd, text, trio, ct
+            output += "."
+        return noEnd, output
 
     def getRandomWord(self):
         return random.choice(list(self.wordPairs.keys()))
