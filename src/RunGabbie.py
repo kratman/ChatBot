@@ -11,17 +11,9 @@ import sys
 import random
 from Gabbie import GabbieBot
 
-# Main routines
-
 # Initialize Gabbie
 gabbie = GabbieBot()
-
-# Read trained memories
-gabbie.readPersonality()
-gabbie.readGreetings()
-gabbie.readFrequencies()
-gabbie.readPairs()
-gabbie.readTrios()
+gabbie.loadMemories()
 
 # Print a blank line for formatting
 print("")

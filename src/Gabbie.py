@@ -35,6 +35,13 @@ class GabbieBot:
         self.wordPairs = {}  # A list of all pairs of words to predict the next word
         self.wordTrios = {}  # A list of all trios of words to predict the next word
 
+    def loadMemories(self):
+        self.readPersonality()
+        self.readGreetings()
+        self.readFrequencies()
+        self.readPairs()
+        self.readTrios()
+
     def fixPunctuation(self, text):
         lastChar = text[-1]
         if lastChar not in self.acceptablePunctuation:

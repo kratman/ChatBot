@@ -7,14 +7,6 @@
 
 # A script for teaching GabbieBot to speak using plain text books
 
-"""
- Usage:
-
- user:$ python TrainGabbie.py BookFileName <...>
-
- Note: <...> represents additional books which are optional to include
-"""
-
 import os
 import re
 import sys
