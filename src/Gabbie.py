@@ -167,10 +167,7 @@ class GabbieBot:
         # Continue the sentence
         if pair in self.wordPairs:
             # Add the next word
-            if len(self.wordPairs[pair]) > 1:
-                binSize = 1.0 / (len(self.wordPairs[pair]) - 1)
-            else:
-                binSize = 1.0 / len(self.wordPairs[pair])
+            binSize = self.getBinSize(self.wordPairs, pair)
             wordFound = False
             wordID = 0
             # Find a word with a biased random choice
@@ -201,10 +198,7 @@ class GabbieBot:
         # Continue the sentence
         if trio in self.wordTrios:
             # Add the next word
-            if len(self.wordTrios[trio]) > 1:
-                binSize = 1.0 / (len(self.wordTrios[trio]) - 1)
-            else:
-                binSize = 1.0 / len(self.wordTrios[trio])
+            binSize = self.getBinSize(self.wordTrios, trio)
             wordFound = False
             wordID = 0
             # Find a word with a biased random choice
@@ -230,6 +224,14 @@ class GabbieBot:
         noEnd, text = self.checkEndOfSentence(trio, text, ct)
         # Return the update conversation
         return noEnd, text, trio, ct
+
+    @staticmethod
+    def getBinSize(wordList, phrase):
+        if len(wordList[phrase]) > 1:
+            binSize = 1.0 / (len(wordList[phrase]) - 1)
+        else:
+            binSize = 1.0 / len(wordList[phrase])
+        return binSize
 
     def checkEndOfSentence(self, phrase, output, ct):
         lastCharacter = phrase[-1]
