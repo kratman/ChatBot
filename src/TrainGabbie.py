@@ -113,7 +113,7 @@ for book in bookNames:
     bookWords = len(tempList)  # Number of words in this book
     for i in range(1, bookWords):
         # Add pairs of words
-        if i < bookWords - 2:
+        if i < (bookWords - 2):
             # Identify a pair of words
             pair = tempList[i - 1] + " " + tempList[i]
             # Identify a word that follows the pair
@@ -137,7 +137,7 @@ for book in bookNames:
                 tempDict = {pair: newList}
                 wordPairs.update(tempDict)
         # Add trios of words
-        if (i > 1) and (i < bookWords - 2):
+        if (i > 1) and (i < (bookWords - 2)):
             # Identify a trio of words
             trio = tempList[i - 2] + " " + tempList[i - 1] + " " + tempList[i]
             # Identify a word that follows the trio
