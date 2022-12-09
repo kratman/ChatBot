@@ -26,32 +26,6 @@ class TrainGabbie:
         wordPairs = {}  # A list of all pairs of words to predict the next word
         wordTrios = {}  # A list of all trios of words
 
-        def SortKey(wordList):
-            return wordList[1]
-
-        def removeSpecialCharacters(text):
-            # Symbols to remove from the texts
-            removalList = [r'\[', r'\{', r'\(', r'\<', r'\]', r'\}', r'\)', r'\>']
-            newText = text  # Make a copy
-            for symbol in removalList:
-                newText = re.sub(symbol, "", newText)
-            return newText
-
-        def sortByFrequency(wordGroups, frequencies):
-            for group in wordGroups:
-                tempWords = list(wordGroups[group])
-                sortedWords = []
-                for aWord in tempWords:
-                    temp = [aWord, frequencies[aWord]]
-                    sortedWords.append(temp)
-                sortedWords = sorted(sortedWords, key=SortKey)
-                tempWords = []
-                for aWord in sortedWords:
-                    tempWords.append(aWord[0])
-                tempWords.reverse()
-                wordGroups[group] = tempWords
-            return wordGroups
-
         # Makes the output look a little better
         print("")
 
@@ -87,7 +61,7 @@ class TrainGabbie:
             tempList = []  # A simpler format for the word list
             for sentence in bookFile:
                 # Use regular expressions to remove garbage characters
-                words = removeSpecialCharacters(sentence)
+                words = self.removeSpecialCharacters(sentence)
                 # Change the case
                 if allLowerCase:
                     words = words.lower()
@@ -167,8 +141,8 @@ class TrainGabbie:
             wordFreqs[word] /= totalWords
 
         # Sort groups by frequency
-        wordPairs = sortByFrequency(wordPairs, wordFreqs)
-        wordTrios = sortByFrequency(wordTrios, wordFreqs)
+        wordPairs = self.sortByFrequency(wordPairs, wordFreqs)
+        wordTrios = self.sortByFrequency(wordTrios, wordFreqs)
 
         # Save word frequency
         memFile = open(GabbiePath + "/Knowledge/Memories_frequency.txt", "w")
@@ -230,6 +204,34 @@ class TrainGabbie:
 
         # Clean up and exit
         exit(0)
+
+    @staticmethod
+    def SortKey(wordList):
+        return wordList[1]
+
+    @staticmethod
+    def removeSpecialCharacters(text):
+        # Symbols to remove from the texts
+        removalList = [r'\[', r'\{', r'\(', r'\<', r'\]', r'\}', r'\)', r'\>']
+        newText = text  # Make a copy
+        for symbol in removalList:
+            newText = re.sub(symbol, "", newText)
+        return newText
+
+    def sortByFrequency(self, wordGroups, frequencies):
+        for group in wordGroups:
+            tempWords = list(wordGroups[group])
+            sortedWords = []
+            for aWord in tempWords:
+                temp = [aWord, frequencies[aWord]]
+                sortedWords.append(temp)
+            sortedWords = sorted(sortedWords, key=self.SortKey)
+            tempWords = []
+            for aWord in sortedWords:
+                tempWords.append(aWord[0])
+            tempWords.reverse()
+            wordGroups[group] = tempWords
+        return wordGroups
 
 
 if __name__ == "__main__":
