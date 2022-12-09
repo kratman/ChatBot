@@ -165,7 +165,7 @@ for book in bookNames:
 
 # Calculate the statistical weight of the word
 for word in wordFreqs:
-    wordFreqs[word] = wordFreqs[word] / totalWords
+    wordFreqs[word] /= totalWords
 
 # Sort groups by frequency
 wordPairs = sortByFrequency(wordPairs, wordFreqs)
