@@ -40,15 +40,7 @@ class TrainGabbie:
                 # The operating system located the book
                 bookNames.append(tempName)
             else:
-                # The book is missing
-                numErrors += 1  # Increase the number of errors
-                textLine = ""  # Empty string
-                # Add an error message
-                textLine += "Error: A book "
-                textLine += tempName
-                textLine += " was not found!"
-                # Print the error and continue
-                print(textLine)
+                numErrors = self.bookNotFound(numErrors, tempName)
 
         # Adjust the number of books by subtracting the number of errors
         numBooks -= numErrors
@@ -204,6 +196,15 @@ class TrainGabbie:
 
         # Clean up and exit
         exit(0)
+
+    @staticmethod
+    def bookNotFound(numErrors, tempName):
+        numErrors += 1
+        textLine = "Error: A book "
+        textLine += tempName
+        textLine += " was not found!"
+        print(textLine)
+        return numErrors
 
     @staticmethod
     def SortKey(wordList):
