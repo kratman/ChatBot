@@ -18,8 +18,7 @@ class TwentyQuest:
     userAnswers = []
 
     def play(self):
-        count = 0
-        while count < self.numberOfQuestions:
+        for _ in range(self.numberOfQuestions):
             nextQuestion = self.selectQuestion()
             self.askQuestion(nextQuestion)
             self.userAnswers.append(self.getResponse())
@@ -40,15 +39,17 @@ class TwentyQuest:
 
     def askQuestion(self, nextQuestion):
         self.usedQuestions.append(nextQuestion)
-        print(nextQuestion)
+        print(f"{nextQuestion} [Yes, No]")
 
-    def makeGuess(self):
-        raise NotImplementedError
+    def guessIsCorrect(self, guess):
+        print(f"Is it {guess}? [Yes, No]")
+        return self.getResponse()
 
     def getResponse(self):
         raise NotImplementedError
 
-    def guessIsCorrect(self, guess):
+    def makeGuess(self):
+        assert len(self.userAnswers) == len(self.usedQuestions)
         raise NotImplementedError
 
     def updateMemories(self):
