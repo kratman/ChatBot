@@ -12,6 +12,7 @@ import random
 
 class TwentyQuest:
     numberOfQuestions = 20
+    yesNoPrompt = "[Yes, No]"
     knownAnswers = {}
     questions = []
     usedQuestions = []
@@ -39,10 +40,10 @@ class TwentyQuest:
 
     def askQuestion(self, nextQuestion):
         self.usedQuestions.append(nextQuestion)
-        print(f"{nextQuestion} [Yes, No]")
+        print(f"{nextQuestion} {self.yesNoPrompt}")
 
     def guessIsCorrect(self, guess):
-        print(f"Is it {guess}? [Yes, No]")
+        print(f"Is it {guess}? {self.yesNoPrompt}")
         return self.getResponse()
 
     def getResponse(self):
