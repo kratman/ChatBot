@@ -11,29 +11,28 @@ import random
 
 
 class GabbieBot:
-    def __init__(self):
-        # Fraction of the updates which use the three word Markov chains
-        self.threeWordFrac = 0.25  # Suggestion: 0.25
-        self.GabbiePath = "./"
-        self.acceptablePunctuation = [".", "!", "?", ",", ":", ";"]
-        self.maxWords = 40
+    # Fraction of the updates which use the three word Markov chains
+    threeWordFrac = 0.25  # Suggestion: 0.25
+    GabbiePath = "./"
+    acceptablePunctuation = [".", "!", "?", ",", ":", ";"]
+    maxWords = 40
 
-        # Make all letters lower case to improve the number of matches
-        self.allLowerCase = True  # Suggestion: True
+    # Make all letters lower case to improve the number of matches
+    allLowerCase = True  # Suggestion: True
 
-        # Turn on printing of the user input
-        self.printUser = True  # For the text interface
+    # Turn on printing of the user input
+    printUser = True  # For the text interface
 
-        # Turn on command line debugging output
-        self.debugGabbie = False
+    # Turn on command line debugging output
+    debugGabbie = False
 
-        # Initialize variables
-        self.debugLine = ""  # A set of debug messages
-        self.quitGabbie = False  # Quits gabbie if an error was found
-        self.canPhrases = {}  # A list of canned responses
-        self.wordFreqs = {}  # A word list and the frequency of appearance
-        self.wordPairs = {}  # A list of all pairs of words to predict the next word
-        self.wordTrios = {}  # A list of all trios of words to predict the next word
+    # Initialize variables
+    debugLine = ""  # A set of debug messages
+    quitGabbie = False  # Quits gabbie if an error was found
+    canPhrases = {}  # A list of canned responses
+    wordFreqs = {}  # A word list and the frequency of appearance
+    wordPairs = {}  # A list of all pairs of words to predict the next word
+    wordTrios = {}  # A list of all trios of words to predict the next word
 
     def loadMemories(self):
         self.readPersonality()
