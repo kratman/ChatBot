@@ -97,8 +97,11 @@ class TwentyQuest:
     def updateMemories(self):
         correctAnswer = input("What was it then?")
         newMemory = []
+        if correctAnswer in self.knownAnswers.keys():
+            newMemory = self.knownAnswers[correctAnswer]
+            self.knownAnswers.pop(correctAnswer)
         for question, response in zip(self.usedQuestions, self.userAnswers):
-            if response:
+            if response and question not in newMemory:
                 newMemory.append(question)
         self.knownAnswers.update({correctAnswer: newMemory})
 
