@@ -28,7 +28,7 @@ class TwentyQuest:
             self.askQuestion(nextQuestion)
             self.userAnswers.append(self.getResponse())
         guess = self.makeGuess()
-        if not self.guessIsCorrect(guess):
+        if guess is None or not self.guessIsCorrect(guess):
             self.updateMemories()
         return
 
@@ -70,6 +70,8 @@ class TwentyQuest:
 
     @staticmethod
     def pickBestGuess(counts, highestCount):
+        if not counts:
+            return None
         bestGuesses = []
         for keyCount in counts:
             if keyCount[1] < highestCount:
@@ -87,10 +89,13 @@ class TwentyQuest:
                     keyCount[1] += 1
             counts.append(keyCount)
         counts.sort(key=lambda x: x[1], reverse=True)
-        highestCount = counts[0][1]
+        highestCount = 0
+        if len(counts) > 0:
+            highestCount = counts[0][1]
         return counts, highestCount
 
     def updateMemories(self):
+        response = input("What was it then?")
         raise NotImplementedError
 
     def readMemories(self, memPath):
