@@ -95,8 +95,12 @@ class TwentyQuest:
         return counts, highestCount
 
     def updateMemories(self):
-        response = input("What was it then?")
-        raise NotImplementedError
+        correctAnswer = input("What was it then?")
+        newMemory = []
+        for question, response in zip(self.usedQuestions, self.userAnswers):
+            if response:
+                newMemory.append(question)
+        self.knownAnswers.update({correctAnswer: newMemory})
 
     def readMemories(self, memPath):
         raise NotImplementedError
