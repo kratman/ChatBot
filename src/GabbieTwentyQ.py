@@ -13,6 +13,10 @@ import random
 class TwentyQuest:
     numberOfQuestions = 20
     yesNoPrompt = "[Yes, No]"
+    maxResponses = 3
+    validYeses = ["yes", "yeah", "y"]
+    validNos = ["no", "nope", "n"]
+
     knownAnswers = {}
     questions = []
     usedQuestions = []
@@ -47,11 +51,44 @@ class TwentyQuest:
         return self.getResponse()
 
     def getResponse(self):
-        raise NotImplementedError
+        count = 0
+        while count < self.maxResponses:
+            response = input("").lower()
+            if response in self.validYeses:
+                return True
+            elif response in self.validNos:
+                return False
+            else:
+                count += 1
+                print("I did not understand your response. Please try again.")
+        raise RuntimeError("No valid response was provided.")
 
     def makeGuess(self):
         assert len(self.userAnswers) == len(self.usedQuestions)
-        raise NotImplementedError
+        counts, highestCount = self.scoreGuesses()
+        return self.pickBestGuess(counts, highestCount)
+
+    @staticmethod
+    def pickBestGuess(counts, highestCount):
+        bestGuesses = []
+        for keyCount in counts:
+            if keyCount[1] < highestCount:
+                break
+            else:
+                bestGuesses.append(keyCount[0])
+        return random.choice(bestGuesses)
+
+    def scoreGuesses(self):
+        counts = []
+        for key in self.knownAnswers:
+            keyCount = [key, 0]
+            for question, response in zip(self.usedQuestions, self.userAnswers):
+                if response and question in self.knownAnswers[key]:
+                    keyCount[1] += 1
+            counts.append(keyCount)
+        counts.sort(key=lambda x: x[1], reverse=True)
+        highestCount = counts[0][1]
+        return counts, highestCount
 
     def updateMemories(self):
         raise NotImplementedError
